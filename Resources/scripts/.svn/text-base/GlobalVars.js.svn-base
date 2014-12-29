@@ -1,0 +1,30 @@
+/**
+ * The are the global vars that are used in the program
+ */
+
+var CURR_MODE_GAME = "game mode";
+var CURR_MODE_QUOTE_SELECTOR = "quote selector";
+var CURR_MODE_COLLECTION_SELECTOR = "collection selector";
+var totalHidden = 0;
+var gameWindow = "";
+var gamePanel = "";
+var currentMenuNode = "";
+var breadcrumb = "";
+var historyIndex = 0;
+var fontSize = 20;
+var menuData = "";
+var currQuoteIndex = 0;
+var currQuote = "";
+var currQuoteSet = "";
+var currQuoteSetLength = 0;
+var currQuoteSetName = "";
+var currQuoteSetParentName = "";
+var currMenuNodeIndex=0;
+var menuHistory = [];
+var menuInited = false;
+var currQuoteSet = "";
+var savedQuotesCollection;
+var memorizedArray = [];
+var currMode = CURR_MODE_COLLECTION_SELECTOR;
+var currQuoteSetLanguage = "en";
+var currQuoteLanguage = "en";

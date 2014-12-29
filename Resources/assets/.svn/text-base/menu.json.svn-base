@@ -1,0 +1,102 @@
+[
+	{"version":"1","name":"Collections","id":"mm","items":
+		[
+			{"name": "Religion/Spirituality","id":"religion","items":
+				[
+					{"name": "The Baha'i Faith","id": "bahai","items":
+						[
+							{"name": "The Hidden Words","id": "hw","items":
+								[
+									{"name":"From the Arabic","file":"hidden-words-arabic.xml","id":"hw-a"},
+									{"name":"From the Persian","file":"hidden-words-persian.xml","id":"hw-p"}
+								]
+							},
+							{"name": "Words of Wisdom","file": "words-of-wisdom.xml","id":"hw-a"},
+							{"name": "Prayers","id": "prayer","items":
+								[
+									{"name":"Long Obligatory Prayer","file":"lop.xml","id":"lop"},
+									{"name":"The Long Healing Prayer","file":"long-healing-prayer.xml","id":"lhp"},
+									{"name":"The Tablet of Ahmad","file":"tablet-of-ahmad.xml","id":"toa"},
+									{"name":"Aid and Assistance","file":"prayers-aid-and-assistance.xml","id":"paaa"},
+									{"name":"Assistance with Tests","file":"prayers-assistance-with-tests.xml","id":"pawt"},
+									{"name":"Children and Youth","file":"prayers-children-and-youth.xml","id":"pcay"},
+									{"name":"For the Departed","file":"prayers-departed.xml","id":"pd"},
+									{"name":"Detachment","file":"prayers-detachment.xml","id":"pdtch"},
+									{"name":"Evening","file":"prayers-evening.xml","id":"pe"},
+									{"name":"Families","file":"prayers-families.xml","id":"pf"},
+									{"name":"Firmness in the Covenant","file":"prayers-firmness.xml","id":"pfc"},
+									{"name":"Forgiveness","file":"prayers-forgiveness.xml","id":"pf"},
+									{"name":"The Fund","file":"prayers-fund.xml","id":"pfund"},
+									{"name":"Mankind","file":"prayers-mankind.xml","id":"pmankind"},
+									{"name":"Marriage","file":"prayers-marriage.xml","id":"pmarriage"},
+									{"name":"Meetings","file":"prayers-meetings.xml","id":"pmeetings"},
+									{"name":"Morning","file":"prayers-morning.xml","id":"pmorning"},
+									{"name":"Praise and Gratitude","file":"prayers-praise-and-gratitude.xml","id":"ppraise"},
+									{"name":"Protection","file":"prayers-protection.xml","id":"pprotection"}
+								]
+							},
+							{"name": "Ruhi Institute Materials","id": "ri","items":
+								[
+									{"name":"Ruhi Book 1","file":"ruhibk1.xml","id":"ruhi1"},
+									{"name":"Ruhi Book 2","file":"ruhibk2.xml","id":"ruhi2"},
+									{"name":"Ruhi Book 3","file":"ruhibk3.xml","id":"ruhi3"},
+									{"name":"Ruhi Book 4","file":"ruhibk4.xml","id":"ruhi4"},
+									{"name":"Ruhi Book 6","file":"ruhibk6.xml","id":"ruhi6"},
+									{"name":"Ruhi Book 7","file":"ruhibk7.xml","id":"ruhi7"},
+									{"name":"Anna's Conversation","id":"anna","items":
+										[
+											{"name":"Part 1","file":"anna1.xml","id":"anna1"},
+											{"name":"Part 2","file":"anna2.xml","id":"ruhi1"},
+											{"name":"Part 3","file":"anna3.xml","id":"anna3"},
+											{"name":"Part 4","file":"anna4.xml","id":"anna4"},
+											{"name":"Part 5","file":"anna5.xml","id":"anna5"},
+											{"name":"Part 6","file":"anna6.xml","id":"anna6"},
+											{"name":"Part 7","file":"anna7.xml","id":"anna7"}
+										]		
+									},
+									{"name":"Junior Youth Materials","id":"jym","items":
+										[
+											{"name":"Breezes of Confirmation","file":"jy-breezes.xml","id":""},
+											{"name":"Walking the Straight Path","file":"jy-walking.xml","id":""}
+										]		
+									}
+								]
+							}
+						]
+					},
+					{"name": "Buddhism","id": "buddhism","items":
+						[
+							{"name":"Buddha","file":"buddha.xml","id":"buddhism"},
+							{"name":"Dalai Lama","file":"dalai-lama.xml","id":"dalai"},
+							{"name":"Thich Nhat Hanh","file":"thich-nhat-hanh.xml","id":"thich"}
+						]
+					},
+					{"name":"Taoism","file":"taoism.xml","id":"taoism"},
+				]
+			},
+			{"name":"Philosophy", "id":"phil","items":
+				[
+					{"name":"Aristotle","file":"aristotle.xml","id":"aris"},
+					{"name":"Confucius","file":"confucius.xml","id":"conf"}
+				]
+			},
+			{"name": "Historical Figures","id": "hist","items":
+				[
+					{"name":"Mahatma Ghandi","file":"ghandi.xml","id":"ghandi"},
+					{"name":"William Shakespeare","file":"shakespeare.xml","id":"shakes"}
+				]
+			},	
+			{"name": "Inspiration","id": "insp","items":
+				[
+					{"name":"Bite-sized wisdom","file":"bite-sized-wisdom.xml","id":"bite"}
+				]
+			},	
+			{"name": "Saved Quotes","id": "mq","items":
+				[
+					{"name":"selected quotes","file":"savedQuotes.xml","id":"mqq"}
+				]
+	
+			}
+		]
+	}
+]

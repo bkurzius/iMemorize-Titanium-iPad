@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<json>
+<version>1</version>
+<name>Collections</name>
+<id>mm</id>
+<items>
+	<name>The Baha'i Faith</name>
+	<id>b</id>
+	<items>
+		<name>The Hidden Words</name>
+		<id>hw</id>
+		<items>
+			<name>From the Arabic</name>
+			<file>hidden-words-arabic.xml</file>
+			<id>hw-a</id>
+		</items>
+		<items>
+			<name>From the Persian</name>
+			<file>hidden-words-persian.xml</file>
+			<id>hw-p</id>
+		</items>
+		</items>
+		<items>
+		<name>Words of Wisdom</name>
+		<file>words-of-wisdom.xml</file>
+		<id>hw-a</id>
+		</items>
+		<items>
+		<name>Prayers</name>
+		<id>prayer</id>
+		<items>
+		<name>Long Obligatory Prayer</name>
+		<file>lop.xml</file>
+		<id>lop</id>
+		</items>
+		<items>
+		<name>The Long Healing Prayer</name>
+		<file>long-healing-prayer.xml</file>
+		<id>lhp</id>
+		</items>
+		<items>
+		<name>The Tablet of Ahmad</name>
+		<file>tablet-of-ahmad.xml</file>
+		<id>toa</id>
+		</items>
+		<items>
+		<name>Aid and Assistance</name>
+		<file>prayers-aid-and-assistance.xml</file>
+		<id>paaa</id>
+		</items>
+		<items>
+		<name>Assistance with Tests</name>
+		<file>prayers-assistance-with-tests.xml</file>
+		<id>pawt</id>
+		</items>
+		<items>
+		<name>Children and Youth</name>
+		<file>prayers-children-and-youth.xml</file>
+		<id>pcay</id>
+		</items>
+		<items>
+		<name>For the Departed</name>
+		<file>prayers-departed.xml</file>
+		<id>pd</id>
+		</items>
+		<items>
+		<name>Detachment</name>
+		<file>prayers-detachment.xml</file>
+		<id>pdtch</id>
+		</items>
+		<items>
+		<name>Evening</name>
+		<file>prayers-evening.xml</file>
+		<id>pe</id>
+		</items>
+		<items>
+		<name>Families</name>
+		<file>prayers-families.xml</file>
+		<id>pf</id>
+		</items>
+		<items>
+		<name>Firmness in the Covenant</name>
+		<file>prayers-firmness.xml</file>
+		<id>pfc</id>
+		</items>
+		<items>
+		<name>Forgiveness</name>
+		<file>prayers-forgiveness.xml</file>
+		<id>pf</id>
+		</items>
+		<items>
+		<name>The Fund</name>
+		<file>prayers-fund.xml</file>
+		<id>pfund</id>
+		</items>
+		<items>
+		<name>Mankind</name>
+		<file>prayers-mankind.xml</file>
+		<id>pmankind</id>
+		</items>
+		<items>
+		<name>Marriage</name>
+		<file>prayers-marriage.xml</file>
+		<id>pmarriage</id>
+		</items>
+		<items>
+		<name>Meetings</name>
+		<file>prayers-meetings.xml</file>
+		<id>pmeetings</id>
+		</items>
+		<items>
+		<name>Morning</name>
+		<file>prayers-morning.xml</file>
+		<id>pmorning</id>
+		</items>
+		<items>
+		<name>Praise and Gratitude</name>
+		<file>prayers-praise-and-gratitude.xml</file>
+		<id>ppraise</id>
+		</items>
+		<items>
+		<name>Protection</name>
+		<file>prayers-protection.xml</file>
+		<id>pprotection</id>
+		</items>
+		</items>
+		<items>
+		<name>Ruhi Institute Materials</name>
+		<id>ri</id>
+		<items>
+		<name>Ruhi Book 1</name>
+		<file>ruhibk1.xml</file>
+		<id>ruhi1</id>
+		</items>
+		<items>
+		<name>Ruhi Book 2</name>
+		<file>ruhibk2.xml</file>
+		<id>ruhi2</id>
+		</items>
+		<items>
+		<name>Ruhi Book 3</name>
+		<file>ruhibk3.xml</file>
+		<id>ruhi2</id>
+		</items>
+		<items>
+		<name>Ruhi Book 4</name>
+		<file>ruhibk4.xml</file>
+		<id>ruhi4</id>
+		</items>
+		<items>
+		<name>Ruhi Book 5</name>
+		<file>ruhibk5.xml</file>
+		<id>ruhi5</id>
+		</items>
+		<items>
+		<name>Ruhi Book 6</name>
+		<file>ruhibk6.xml</file>
+		<id>ruhi6</id>
+		</items>
+		<items>
+		<name>Ruhi Book 7</name>
+		<file>ruhibk7.xml</file>
+		<id>ruhi7</id>
+		</items>
+		<items>
+		<name>Anna's Presentation</name>
+		<id>anna</id>
+		<items>
+		<name>Part 1</name>
+		<file>anna1.xml</file>
+		<id>anna1</id>
+		</items>
+		<items>
+		<name>Part 2</name>
+		<file>anna2.xml</file>
+		<id>ruhi1</id>
+		</items>
+		<items>
+		<name>Part 3</name>
+		<file>anna3.xml</file>
+		<id>anna3</id>
+		</items>
+		<items>
+		<name>Part 4</name>
+		<file>anna4.xml</file>
+		<id>anna4</id>
+		</items>
+		<items>
+		<name>Part 5</name>
+		<file>anna5.xml</file>
+		<id>anna5</id>
+		</items>
+		<items>
+		<name>Part 6</name>
+		<file>anna6.xml</file>
+		<id>anna6</id>
+		</items>
+		<items>
+		<name>Part 7</name>
+		<file>anna7.xml</file>
+		<id>anna7</id>
+		</items>
+		</items>
+		</items>
+	</items>
+	<items>
+	<name>Buddhism</name>
+	<id>bu</id>
+	<items>
+	<name>7 Paths</name>
+	<file>lop.xml</file>
+	<id>lop</id>
+	</items>
+	<items>
+	<name>Dalai Lama</name>
+	<file>prayers.xml</file>
+	<id>miscPrayer</id>
+	</items>
+	</items>
+	<items>
+	<name>Saved Quotes</name>
+	<id>mq</id>
+	<items>
+	<name>selected quotes</name>
+	<file>savedQuotes.xml</file>
+	<id>mqq</id>
+	</items>
+</items>
+</json>

@@ -1,0 +1,466 @@
+// ----- HideQuoteGame Class -------------
+
+var HideQuoteGame = {};
+
+HideQuoteGame.hideIncrement = 3;
+HideQuoteGame.$allWords = "";
+HideQuoteGame.totalWordsHidden = 0;
+HideQuoteGame.aWordsStillShowing = [];
+HideQuoteGame.wordArray = "";
+HideQuoteGame.showAllBtnDisabled = true;
+HideQuoteGame.hideBtnDisabled = false;
+
+HideQuoteGame.buildQuoteScreen = function(quoteNum){
+	var that = this;
+	var thisQuote;
+	var $currIntroText;
+	var $currQuoteText;
+	var $currQuoteLanguage;
+	var $currQuoteId;
+	var wordDivArray = [];
+	var $currSource;
+	var $currAuthor;
+	var $textSize = 30;
+	
+	// reset the number of words that are hidden
+	this.totalWordsHidden = 0;
+	this.aWordsStillShowing = [];
+	
+	
+	// we need to position the window to the top in case a user has scrolled to a lower postion in the qoute menu
+	window.scroll(0,0);
+
+	currMode = CURR_MODE_GAME;
+	thisQuote = jQuery(currQuoteSet).find("quote")[quoteNum];
+	$currQuoteId = jQuery(thisQuote).attr('id');
+	$currQuoteLanguage = jQuery(thisQuote).find('language').text();
+	$currIntroText = decodeURIComponent(jQuery(thisQuote).find('introtext').text());
+	$currQuoteText = decodeURIComponent(jQuery(thisQuote).find('text').text());
+	$currQuoteURL = decodeURIComponent(jQuery(thisQuote).find('url').text());
+	
+	var RTL = isThisRightToLeftLanguage($currQuoteLanguage);
+	var indentStyle;
+	if(RTL){
+		indentStyle='indentRTL';
+	}else{
+		indentStyle='indentLTR';
+	}
+
+	// remove all of the divs in the gamePanel
+	jQuery("#gamePanel div").remove();
+	// set up the intro text and add it if it exists
+
+	if($currIntroText.length>1){
+		this.addIntrotext($currIntroText,$currQuoteLanguage);
+	}
+	//currQuoteLanguage = $currQuoteLanguage;
+	// split the quote into an array
+	if(isThisLogogramLanguage($currQuoteLanguage)){
+		this.wordArray = this.splitTextIntoChars($currQuoteText);
+	}else{
+		this.wordArray = $currQuoteText.split(" ");
+	}	
+	// set the hide increment by dividing the quote length by 10
+	this.hideIncrement = this.wordArray.length/10;
+	// hide the quote selector panel
+	hideQuoteSelector();
+	// this is the "Quote 5 out 6" string
+	buildQuoteNumString(currQuoteIndex);
+	// show this game panel div
+	showGame();
+	// now build the new gamePanel 
+	// take each word, create a div
+	// add it to the screen and add t to the stillShowingAray();
+	var clearNextWord = false;
+	for(var i=0;i<this.wordArray.length;i++){
+		var div = document.createElement("div");
+		var thisWord = this.wordArray[i];
+		// if the last word was -- or ended with -- a <br> tag
+		// we set this flag to clear the next word
+		// we also clear the first word too in case the introtext is there
+		if(clearNextWord || i===0){
+			$(div).addClass('clear');
+			clearNextWord = false;
+		}
+		// we don't want to indent the first line of a quote
+		// only subsequent paragraphs
+		if(clearNextWord){
+			$(div).addClass(indentStyle);
+		}
+		// see if there is a break tag
+		if(thisWord.indexOf("<br") > -1){
+			var indexOfOpeningTag = thisWord.indexOf("<");
+			var indexOfClosingTag = thisWord.indexOf(">");
+			var lengthOfWord = thisWord.length;
+			// create a regex that find the <br/> tag
+			var regex = /<[^<>]+>/;
+			var regexNewline = /\n/;
+			var positionOfNewLine = thisWord.search(regexNewline);
+			if(positionOfNewLine>-1){
+				//("we found a new line");
+			}
+			// find the position of it
+			var postionOfMatch = thisWord.search(regex);
+			// if the br tag is at the end of the word we have to clear the next word instead
+			// otherwise clear this one
+			if(postionOfMatch>=lengthOfWord-6){
+				clearNextWord = true;
+			}else{
+				$(div).addClass('clear');
+				$(div).addClass(indentStyle);
+			}
+			// now replace < br> with nothing
+			thisWord = thisWord.replace(regex,"");
+			// if the whole word is nothing (meaning the word was actually only a break tag)
+			if(thisWord===''){
+				// then we take this item out of the array
+				this.wordArray.splice(i,1);
+				// and move the index back one so we don't miss a word
+				i--;
+				continue;
+			}
+			
+		}
+		
+		div.innerHTML=thisWord;
+		gamePanel.appendChild(div);
+		this.addToStillShowingArray(div);
+		// if the word is the first in the paragraph, indent it
+	}
+	// now use jQuery to attach the class and event handler
+	// we remove the introtext from $allWords so it doesn't hide/show
+	this.$allWords = jQuery("#gamePanel div").not("#gamePanel #introtext");
+	if(isThisRightToLeftLanguage($currQuoteLanguage)){
+		this.$allWords.addClass("hiddenWordRTL");
+		$("#introtext").addClass("hiddenWordRTL");
+	}else if (isThisLogogramLanguage($currQuoteLanguage)){
+		this.$allWords.addClass("hiddenWordLogogram");
+	}else{
+		this.$allWords.addClass("hiddenWord");
+	}
+	// remove the action from the introtext
+
+	//alert("text size: " + $textSize);
+	this.changeTextSize(this.$textSize);
+	this.$allWords.click(function(){
+		that.toggleHide(this);
+	});
+
+	checkNavButtons();
+	//this.disableShowAllBtn();
+	$currSource = decodeURIComponent(jQuery(thisQuote).find('reference').text());
+	$currAuthor = decodeURIComponent(jQuery(thisQuote).find('author').text());
+	this.addSource($currAuthor, $currSource, $currQuoteLanguage,$currQuoteURL);
+	sendQuoteToDevice($currQuoteText,$currIntroText,$currAuthor,$currSource,$currQuoteLanguage,$currQuoteId,$currQuoteURL);
+	//alert("$currQuoteId: " + $currQuoteId);
+};
+
+// this function splits a string into an array of chars
+HideQuoteGame.splitTextIntoChars = function(inputText){
+	var tempArray = [];
+	var tempString = "";
+	for (i=0;i<inputText.length;i++){
+		tempArray.push(inputText.charAt(i));
+		//tempString = tempString + "," + inputText.charAt(i);
+	}
+	//alert(tempString);
+	return tempArray;
+};
+
+
+// adds the introtext -- if there is one
+HideQuoteGame.addIntrotext = function(text,currQuoteLanguage){
+	var introDiv = document.createElement("div");
+	$(introDiv).attr("id","introtext");
+	$(introDiv).addClass("introtext");
+	introDiv.innerHTML = text;
+	gamePanel.appendChild(introDiv);
+	if(isThisRightToLeftLanguage(currQuoteLanguage)){
+		$(introDiv).addClass("RTL");
+	}else{
+		$(introDiv).addClass("LTR");
+	}
+};
+
+// adds the source -- if there is one
+HideQuoteGame.addSource = function(authorName,sourceText,currQuoteLanguage,currQuoteURL){
+	
+	var sourceDiv = document.createElement("div");
+	var $newString = '<span class=\'source\'>';
+	
+	if(authorName.length>0){
+		$newString = $newString + authorName;
+		if (sourceText.length > 0) {
+			$newString = $newString + " | ";
+		}
+	}
+	if(sourceText.length>0){
+		// if there is a URL -- and we are online-- then display the href
+		//alert('online: ' + online);
+		if(currQuoteURL!=="" && online){
+			//$newString = $newString + "<a href='" + currQuoteURL + "' target='_blank' >" + sourceText + "</a>";
+			$newString = $newString + "<a href='javascript:openQuoteURL();' >" + sourceText + "</a>";
+		}else{
+			$newString = $newString + sourceText;
+		}
+	}
+	$newString = $newString + '</span>';
+	sourceDiv.innerHTML=$newString;
+	
+	gamePanel.appendChild(sourceDiv);
+	if(isThisRightToLeftLanguage(currQuoteLanguage)){
+		jQuery(sourceDiv).addClass("RTL");
+	}else{
+		jQuery(sourceDiv).addClass("LTR");
+	}
+};
+
+
+HideQuoteGame.buildCurrQuote = function(){
+	//alert('buildCurrQuote: '+ currQuoteIndex);
+	this.buildQuoteScreen(currQuoteIndex);
+};
+		
+HideQuoteGame.buildNextQuote = function(){
+	if(currQuoteIndex < currQuoteSetLength-1) {
+		currQuoteIndex++;
+		this.buildQuoteScreen(currQuoteIndex);
+	}else{
+		//alert("You have reached the last quote in this set.");
+		fireTitaniumAlert("","You have reached the last item in this set.",["OK"] );
+	}
+};
+
+HideQuoteGame.buildPrevQuote = function(){
+	if (currQuoteIndex > 0) {
+		currQuoteIndex--;
+		this.buildQuoteScreen(currQuoteIndex);
+	}else{
+		//alert("You have reached the first quote in this set.");
+		fireTitaniumAlert("","You have reached the first item in this set.",["OK"] );
+	}
+};
+
+HideQuoteGame.toggleHide = function(thisDiv){
+	if(jQuery(thisDiv).hasClass('hide')){
+		this.showWord(thisDiv);
+	}else{
+		this.hideWord(thisDiv);
+	}
+	//checkButtons();
+};
+
+HideQuoteGame.hideWord = function(word){
+	//console.log("HideQuoteGame.hideWord() hide this word: " + jQuery(word).innerHTML);
+	jQuery(word).addClass('hide');
+	this.totalWordsHidden++;
+	this.removeFromStillShowingArray(word);
+	this.checkHideShowBtns();
+};
+
+
+HideQuoteGame.showWord = function(word){
+	jQuery(word).removeClass('hide');
+	this.totalWordsHidden--;
+	this.addToStillShowingArray(word);
+	this.checkHideShowBtns();
+};
+
+HideQuoteGame.showAllWords = function(){
+	var that = this;
+	// reset the array
+	this.aWordsStillShowing = [];
+	this.$allWords.removeClass('hide');	
+	this.totalWordsHidden = 0;
+	// then loop through the collection and add to the array
+	this.$allWords.each(function(){
+		//console.log("add to still showing array");
+		that.aWordsStillShowing.push(this);
+	});
+	enableHideBtn();
+	this.disableShowAllBtn();
+};
+
+HideQuoteGame.addToStillShowingArray = function(word){
+	this.aWordsStillShowing.push(word);
+};
+
+// remove the word from the array so we can track what is left
+HideQuoteGame.removeFromStillShowingArray = function(word){
+	for(var i=0; i<this.aWordsStillShowing.length-1; i++) {
+		if(jQuery(this.aWordsStillShowing[i]).equals(word)){
+			this.aWordsStillShowing.splice(i,1);
+		}
+	}
+};
+
+HideQuoteGame.hideWords = function(){
+	var i=0;
+	// we make one test to see how many more long words there are
+	// if there are more than the hideWordIncrement then we will target big words to hide
+	// othewise we will hide the rest of the words
+	// doing this test after each hide was far too memory intensive and choked the iPod
+	var targetBigWords = false;
+	//numberOfLongWordsShowing()>=this.hideIncrement?targetBigWords=true:targetBigWords=false;
+	while(i<this.hideIncrement){
+		if(!this.allWordsHidden()){
+			//console.log("hide another word");
+			var thisNum = Math.floor(Math.random()*this.aWordsStillShowing.length);
+			//console.log("thisNum: " + thisNum);
+			//console.log("aWordsStillShowing.length: " + this.aWordsStillShowing.length);
+			// get the targeted div
+			var thisDiv = jQuery(this.aWordsStillShowing[thisNum]);
+			//console.log("jQuery(word).hasClass('hide'): " + jQuery(thisDiv).hasClass('hide'));
+			// see if it does not have the hide class
+			// if it does its already hidden
+			// this first test was a memory hog on long quotes but the revison below it improved the situation dramatically
+			//if(anyLongWordsStillShowing()===false||isLongWord(thisDiv.text())){
+			//if(targetBigWords==false||isLongWord(thisDiv.text())){
+				if(!jQuery(thisDiv).hasClass('hide')){
+					this.hideWord(thisDiv);
+					i++;
+				}
+			//}
+		}else{
+			//console.log("no more words to hide");
+			break;
+		}
+	}
+};
+
+HideQuoteGame.allWordsHidden = function(){
+	//alert("this.aWordsStillShowing.length: " + this.aWordsStillShowing.length);
+	//console.log("this.wordArray.length: " + this.wordArray.length);
+	//console.log("this.totalWordsHidden: " + this.totalWordsHidden);
+	//trace("this.aWordsStillShowing.length: " + this.aWordsStillShowing.length);
+	if (this.wordArray.length === this.totalWordsHidden){
+	//if(this.aWordsStillShowing.length===0){
+		trace("all hidden");
+		return true;
+	}else{
+		return false;
+	} 
+ };
+ 
+ HideQuoteGame.noWordsHidden = function(){	
+	if(this.totalWordsHidden===0){
+		return true;
+	}else{
+		return false;
+	}
+};
+
+ HideQuoteGame.isLongWord = function(thisText){
+	if (thisText.length > 4) {
+		return true;
+	}else{
+		return false;
+	}
+	
+};
+
+HideQuoteGame.anyLongWordsStillShowing = function(){
+	//hasClass('hide')&&jQuery(thisDiv).text().length>4
+	var totalWords = 0;
+	var foundLongWord = false;
+	$allWords.each(function(){
+		var $this = jQuery(this);
+		if(isLongWord($this.text())&&!$this.hasClass('hide')){
+			foundLongWord = true;
+		}
+	});
+	return foundLongWord;
+	//alert(totalWords);
+};
+
+ HideQuoteGame.numberOfLongWordsShowing = function(){
+	var totalWords = 0;	
+	HideQuoteGame.$allWords.each(function(){
+		var $this = jQuery(this);
+		if(isLongWord($this.text())&&!$this.hasClass('hide')){
+			totalWords++;
+		}
+	});
+	return totalWords;
+};
+
+
+
+HideQuoteGame.checkHideShowBtns = function(){
+	if(this.allWordsHidden()){
+		this.disableHideBtn();
+	}else{
+		this.enableHideBtn();
+	}
+	if(this.noWordsHidden()){
+		this.disableShowAllBtn();
+	}else{
+		this.enableShowAllBtn();
+	}
+};
+
+HideQuoteGame.disableHideBtn = function(){
+	//getElement("hideBtn").src = "images/nav/nav_hide_off.jpg";
+};
+
+HideQuoteGame.enableHideBtn= function(){
+	//getElement("hideBtn").src = "images/nav/nav_hide_on.jpg";
+};
+
+HideQuoteGame.disableShowAllBtn = function(){
+	trace("disable showall btn");
+	//getElement("showAllBtn").src = "images/nav/nav_show_off.jpg";
+};
+
+
+HideQuoteGame.enableShowAllBtn= function(){
+	trace("enable showall btn");
+	//getElement("showAllBtn").src = "images/nav/nav_show_on.jpg";
+};
+
+
+HideQuoteGame.getCurrQuoteId = function(){	
+	var thisQuote = jQuery(currQuoteSet).find("quote")[currQuoteIndex];
+	var thisId = jQuery(thisQuote).attr("id");
+	//alert("currQuoteIndex: thisId: " + thisId);
+	return thisId;
+};
+
+HideQuoteGame.changeTextSize = function(newSize){
+	//alert('change font size');
+	this.$textSize = newSize;
+	HideQuoteGame.$allWords.css('font-size',this.$textSize+"px");
+	HideQuoteGame.$allWords.css('margin',Math.round(this.$textSize/14) + "px");
+	$('#introtext').css('font-size',Math.round(this.$textSize/1.5) + "px");
+	$('#source').css('font-size',Math.round(this.$textSize/2) + "px");
+	
+};
+
+
+
+// ----- END HideQuoteGame Class -------------	
+
+function anyLongWordsStillShowing(){
+	//hasClass('hide')&&jQuery(thisDiv).text().length>4
+	var totalWords = 0;
+	var foundLongWord = false;
+	$allWords.each(function(){
+		var $this = jQuery(this);
+		if(isLongWord($this.text())&&!$this.hasClass('hide')){
+			foundLongWord = true;
+		}
+	});
+	return foundLongWord;
+	//alert(totalWords);
+}
+
+ function numberOfLongWordsShowing(){
+	var totalWords = 0;	
+	HideQuoteGame.$allWords.each(function(){
+		var $this = jQuery(this);
+		if(isLongWord($this.text())&&!$this.hasClass('hide')){
+			totalWords++;
+		}
+	});
+	return totalWords;
+}

@@ -1,0 +1,38 @@
+var showAlertDialog;
+var osName = Ti.Platform.osname;
+var isiPad;
+var isAndroid;
+var isiPhone;
+
+showAlertDialog = function(_title,_message,_buttonNames){
+	var alertDialog = Titanium.UI.createAlertDialog({
+		title: _title,
+		message: _message,
+		buttonNames: _buttonNames
+	});	
+	alertDialog.show();
+};
+
+isiPad = function(){
+	if(osName==="ipad"){
+		return true;
+	}else{
+		return false;
+	}
+};;
+
+isAndroid = function(){
+	if(osName==="android"){
+		return true;
+	}else{
+		return false;
+	}
+};
+
+isiPhone = function(){
+	if(osName==="iphone"){
+		return true;
+	}else{
+		return false;
+	}
+};

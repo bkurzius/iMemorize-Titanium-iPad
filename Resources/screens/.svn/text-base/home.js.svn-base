@@ -1,0 +1,309 @@
+Ti.include("../scripts/functions.js");
+
+//data
+var _win;
+var _gameWin;
+var _instructionsWin;
+var _aboutWin;
+var _webview;
+var _logo;
+
+var _fontFamily = 'Helvetica Neue';
+var _uiGap = 10;
+var _width = Titanium.Platform.displayCaps.platformWidth;
+var _height = Titanium.Platform.displayCaps.platformHeight - 20;
+var _tapText;
+var appVersionNumber = Titanium.App.Properties.getString("appVersionNumber_preference");
+var xhr;
+var dontRemindVersionAlert = false;
+
+//platform Specific values
+var _buttonStyleHeight= 60;
+var _logoHeight = 74;
+var _toolbarHeight = 40;
+var _closeBtnHeight = 30;
+var _closeBtnTop = 5;
+
+// ui
+var _HTML;
+var uiWin;
+var toolBar;
+var _startBtn;
+var _enterQuoteBtn;
+var _instructionsBtn;
+var _aboutBtn;
+
+// functions
+var init;
+var draw;
+var setLayout;
+var setListeners;
+var startBtnClickListener;
+var enterQuoteBtnClickListener;
+var instructionsBtnClickListener;
+var resetLayout;
+var checkVersion;
+var showInstructions;
+var showAbout;
+var showUIWin;
+var handleTitaniumOrientationChange;
+
+var _orientationModes = [ Titanium.UI.LANDSCAPE_LEFT,Titanium.UI.LANDSCAPE_RIGHT,Titanium.UI.PORTRAIT,Titanium.UI.UPSIDE_PORTRAIT];
+
+
+//create tab group
+var tabGroup = Titanium.UI.createTabGroup({
+	barColor:'#336699'
+});
+
+var win1 = Titanium.UI.createWindow({
+	backgroundColor:'#849B02',
+	url:'../screens/settings.js',
+	tabBarHidden:true,
+	navBarHidden:false
+});
+
+var tab1 = Titanium.UI.createTab({
+	title:'Base UI',
+	window:win1
+});
+
+var settings = Titanium.UI.createWindow({
+	backgroundColor:'#338866',
+	url:'../screens/settings.js'
+});
+
+var tab2 = Titanium.UI.createTab({
+	title:'info',
+	window:settings
+});
+
+tabGroup.addTab(tab1);
+tabGroup.addTab(tab2);
+
+
+var _buttonGradient = {
+		type:'linear',
+		colors:['#888888','#000001'],
+		startPoint:{x:0,y:0},
+		endPoint:{x:0,y:60},
+		backFillStart:false
+	};
+
+var _closeButtonGradient = {
+		type:'linear',
+		//colors:['#888888','#000001'],
+		//colors:['#C4D607','#5A7104'],
+		colors:['#FEFEFE','#898989'],
+		startPoint:{x:0,y:0},
+		endPoint:{x:0,y:50},
+		backFillStart:false
+	};
+
+var _uiWindowGradient = {
+		type:'linear',
+		//colors:['#B4D109','#8DA701'],
+		colors:['#888888','#000001'],
+		startPoint:{x:0,y:0},
+		endPoint:{x:0,y:_height},
+		backFillStart:false
+	};
+
+var _toolbarGradient = {
+		type:'linear',
+		//colors:['#B4D109','#8DA701'],
+		colors:['#888888','#000001'],
+		startPoint:{x:0,y:0},
+		endPoint:{x:0,y:60},
+		backFillStart:false
+	};
+
+var _buttonStyle = {
+	width:200,
+	height:40,
+	style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+	borderRadius:10,
+	font:{fontSize:16,fontFamily:_fontFamily,fontWeight:'bold'},
+	backgroundGradient:_buttonGradient,
+	borderWidth:1,
+	borderColor:'#666'
+};
+
+
+
+_win = Ti.UI.currentWindow;
+this.hideTabBar = true;
+
+
+init = function(){
+	//Titanium.App.Properties.setString("dontRemindMeVersion_preference","false");
+	checkVersion();
+	// platfrom specific values
+	if(isiPad()){
+		_buttonStyleHeight= 60;
+		_logoHeight = 107;
+		_toolbarHeight = 60;
+		_closeBtnHeight = 40;
+		_closeBtnTop = 10;
+	}
+	draw();
+	//alert('osname: ' + osName);
+};
+
+draw = function(){
+
+	
+	//_logo = Ti.UI.createImageView({image:'../images/' + osName + '/logo.png',height:_logoHeight});
+	_logo = Ti.UI.createImageView({image:'../images/logo-' + osName + '.png',height:_logoHeight});
+	
+	_startBtn = Ti.UI.createButton(_buttonStyle);
+	_startBtn.title = 'Choose Quote';
+	
+	_enterQuoteBtn = Ti.UI.createButton(_buttonStyle);
+	_enterQuoteBtn.title = 'Enter your own quote';
+	
+	_instructionsBtn = Ti.UI.createButton(_buttonStyle);
+	_instructionsBtn.title = 'Instructions';
+	_aboutBtn = Ti.UI.createButton(_buttonStyle);
+	_aboutBtn.title = 'About';
+	setLayout();
+	_win.add(_logo,_startBtn,_enterQuoteBtn,_instructionsBtn,_aboutBtn);
+	setListeners();
+};
+
+setLayout = function(){
+	if(Titanium.UI.orientation < 3){
+		_logo.top = 30;
+	}else{
+		_logo.top = 10;
+	}
+	if(isiPad()){
+		_logo.top = 100;
+	}
+	_startBtn.top = _logo.top + _logo.height + _uiGap;
+	_enterQuoteBtn.top = _startBtn.top + _startBtn.height + _uiGap;
+	_instructionsBtn.top = _enterQuoteBtn.top + _enterQuoteBtn.height + _uiGap;
+	_aboutBtn.top = _instructionsBtn.top + _instructionsBtn.height + _uiGap;
+};
+
+resetLayout = function(){
+	_win.height = Titanium.Platform.displayCaps.platformHeight-20;
+	_win.width = Titanium.Platform.displayCaps.platformWidth;
+};
+
+
+setListeners = function(){
+	_startBtn.addEventListener('click',startBtnClickListener);
+	_enterQuoteBtn.addEventListener('click',enterQuoteBtnClickListener);
+	_instructionsBtn.addEventListener('click',showInstructions);
+	_aboutBtn.addEventListener('click',showAbout);
+	Titanium.Gesture.addEventListener('orientationchange',setLayout);
+};
+
+startBtnClickListener = function(){
+	Titanium.App.fireEvent("showQuoteSelector",'data');
+};
+
+enterQuoteBtnClickListener = function(){
+	Titanium.App.fireEvent("enterQuote",'data');
+};
+
+
+showInstructions = function(){
+	showUIWin('../instructions.html');
+};
+
+showAbout = function(){
+	showUIWin('../about.html');
+};
+
+showUIWin = function(_url){
+	Titanium.API.info("openUiWindow()");
+	_HTML = Ti.UI.createWebView({url:_url,top:_toolbarHeight,width:_width,height:_height-_toolbarHeight});
+	uiWin = Titanium.UI.createView({
+		backgroundColor:'#000000', width:_width,height:_height, top:0
+	});
+	_HTML.orientationModes = _orientationModes;
+	toolBar = Ti.UI.createView({
+		width:_width,
+		height:_toolbarHeight,
+		top:0,
+		backgroundColor:'#000000',
+		backgroundGradient:_toolbarGradient
+	});
+	var closeBtn = Ti.UI.createButton({
+		title:'Close',
+		width:100,
+		height:_closeBtnHeight,
+		top:_closeBtnTop,
+		style:Titanium.UI.iPhone.SystemButtonStyle.PLAIN,
+		backgroundGradient:_closeButtonGradient,
+		borderRadius:10,
+		color:'#545454',
+		font:{fontSize:16,fontFamily:_fontFamily,fontWeight:'bold'}
+	});
+	
+	closeBtn.addEventListener('click',function(){
+		_win.remove(uiWin);
+		_win.remove(toolBar);
+		_instructionsBtn.visible = true;
+	});
+	toolBar.add(closeBtn);
+	uiWin.add(toolBar);
+	uiWin.add(_HTML);
+	_win.add(uiWin);
+	_instructionsBtn.visible = false;
+};
+
+// checks version of the app from the live site and display a dialog to notify the user if there is an update available
+checkVersion = function(){
+	
+		xhr = Ti.Network.createHTTPClient();
+		xhr.open("GET","http://www.imemorize.org/mobile/iPodConfig.xml");
+		Titanium.API.info('checkVersion()1');
+		xhr.onload = function(){
+			Titanium.API.info('xhr.onload()1');
+			var doc = this.responseXML.documentElement;
+			var latestVersionNumber = doc.evaluate("//config/versionNumber/text()").item(0).nodeValue;
+			var latestVersionDetails = doc.evaluate("//config/latestVersionDetails/text()").item(0).nodeValue;
+			Titanium.API.info('xhr.onload()2');
+			// if the version numbers are not the same then we remind them to update it
+			try{
+				if(latestVersionNumber !== appVersionNumber){
+					Titanium.API.info('xhr.onload()3');
+					//alert('Titanium.App.Properties.getString("dontRemindMeVersion" + appVersionNumber + "_preference")' + Titanium.App.Properties.getString("dontRemindMeVersion" + appVersionNumber + "_preference"))
+					if(Titanium.App.Properties.getString("dontRemindMeVersion" + appVersionNumber + "_preference")!=='true'){
+						var alertDialog = Titanium.UI.createAlertDialog({
+							title: 'New Version Available',
+							message: latestVersionDetails + 
+								"\n To download go to the 'Updates' section of the App Store.",
+							buttonNames: ['OK','Cancel','Don\'t remind me again']
+						});	
+						alertDialog.show();
+						alertDialog.addEventListener('click', function(e){
+							var versionAction;
+							if(e.index===0){
+								versionAction = 'Download now!';
+							}else if(e.index === 2){
+								dontRemindVersionAlert = true;
+								versionAction = 'don\'t remind me';
+								Titanium.App.Properties.setString("dontRemindMeVersion" + appVersionNumber + "_preference",'true');
+							};
+							Titanium.API.info(versionAction);
+						});
+					}
+					Titanium.API.info('xhr.onload()4');
+				}else{
+					Titanium.API.info("Version is up to date.");
+				}
+			}catch(err){
+				Titanium.API.info('error in checkVersion function' );
+			}
+		};
+		xhr.send();
+	
+};
+
+
+
+init();

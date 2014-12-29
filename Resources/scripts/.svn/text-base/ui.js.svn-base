@@ -1,0 +1,187 @@
+/**
+ * functions that operate on -- or are fired by -- the ui of the app
+ */
+
+var showQuoteSelector;
+var hideQuoteSelector;
+var showGame;
+var hideGame;
+var showHome;
+var hideSettings;
+var hideBreadcrumb;
+var showBreadcrumb;
+var showSettings;
+var checkNavButtons;
+var buildQuoteNumString;
+var editQuote;
+var showHomeScreen;
+var hideHomeScreen;
+var showInstructionsScreen;
+var hideInstructionsScreen;
+var showAboutScreen;
+var hideAboutScreen;
+var showMenus;
+var hideMenus;
+var hideAllScreens;
+var enterQuote;
+
+
+// --------------- nav functions -----------
+
+showQuoteSelector = function (){
+	currMode = CURR_MODE_QUOTE_SELECTOR;
+	//console.log('show quote selector');
+	var menuPanel = getElement("menuPanel");
+	menuPanel.style.display = "block";
+};
+
+hideQuoteSelector = function (){
+	//console.log('hide quote selector');
+	var menuPanel = getElement("menuPanel");
+	menuPanel.style.display = "none";
+	jQuery('#navBack').show();
+};
+
+showGame = function (){
+	//alert(' showGame()');
+	currMode = CURR_MODE_GAME;
+	//console.log('showGame');		
+	gamePanel.style.display = "block";
+	gamePanel.style.visibility = "visible";
+	gameWindow.style.display = "block";	
+	gameWindow.style.visibility = "visible";
+	jQuery('#gameNav').show();
+	jQuery('#quoteSelector').hide();
+	hideBreadcrumb();
+	titaniumFireEvent('showGame');
+};
+
+hideGame = function (){
+	//console.log('hideGame');	
+	$('#gamePanel').hide();
+	$('#gameWindow').hide();
+	//$('#quoteSelector').show();
+	//jQuery('#gameNav').hide();
+	titaniumFireEvent('hideGame');
+	
+};
+
+showHome = function(){
+	titaniumFireEvent('showHome',{});
+};
+
+hideBreadcrumb = function(){
+	$('#breadCrumb').hide();
+};
+
+showBreadcrumb = function(){
+	$('#breadCrumb').show();
+};
+
+hideSettings = function (){
+	//jQuery('#settings').hide();
+};
+
+showSettings = function (){
+	//jQuery('#settings').show();
+	titaniumFireEvent('addQuote');
+};
+
+checkNavButtons = function(){
+	// if we are in the saved quote section, we can show the edit button
+	// otherwise hide it
+	if(currQuoteSetName == "Saved Quotes"){
+		$('#editQuote').show();
+	}else{
+		$('#editQuote').hide();
+	}
+	// set the checkbox icon
+	setQuoteMemorizedButton();
+	
+};
+
+setQuoteMemorizedButton = function(){
+	var pathToImage = "images/iphone/";
+	var isiPad = navigator.userAgent.match(/iPad/i) != null;
+	if(isiPad){		
+		pathToImage = "images/ipad/";
+	}
+	if(isInMemorizedArray(HideQuoteGame.getCurrQuoteId())){
+		$("#checkbox img").attr("src",pathToImage + "check-on-menubar.png");
+		$("#checkbox").addClass("menubarButtonToggleOn");
+	}else{
+		$("#checkbox img").attr("src",pathToImage + "check-off-menubar.png");
+		$("#checkbox").removeClass("menubarButtonToggleOn");
+	}
+};
+
+buildQuoteNumString = function (currIndex){
+	var strQuoteNum = currQuoteSetName + " > " + (currIndex+1) + " of " + currQuoteSetLength;
+	trace(strQuoteNum);
+	getElement("currQuoteNum").innerHTML= strQuoteNum;
+};
+
+editQuote = function(){
+	if(currQuoteSetName == "Saved Quotes"){
+		var thisQuoteSet = jQuery(currQuoteSet).find("quote");
+		var quoteId = HideQuoteGame.getCurrQuoteId();
+		//alert("editQuote(): " + quoteId);
+		titaniumFireEvent('editQuote',{data:quoteId});
+	}else{
+		alert('This quote is not editable: ' + currQuoteSetName);
+	}
+};
+
+enterQuote = function(){
+	titaniumFireEvent('enterQuote');
+};
+
+showHomeScreen = function(){
+	$('#home').show();
+};
+
+hideHomeScreen= function(){
+	$('#home').hide();
+};
+
+showInstructionsScreen= function(){
+	$('#instructions').show();
+};
+
+hideInstructionsScreen= function(){
+	$('#instructions').hide();
+};
+
+showAboutScreen= function(){
+	$('#about').show();
+};
+
+hideAboutScreen= function(){
+	$('#about').hide();
+};
+
+showMenus = function(){
+	$('#menuPanel').show();
+	$('#quoteSelector').show();
+	showBreadcrumb();
+};
+
+hideMenus = function(){
+	$('#menuPanel').hide();
+	$('#quoteSelector').hide();
+	$('#quoteSelector li').hide();
+	$('#settings').hide();
+	$('#header').hide();
+};
+
+hideAllScreens = function(){
+	hideHomeScreen();
+	hideInstructionsScreen();
+	hideAboutScreen();
+	hideMenus();
+	//hideGame();
+	
+};
+
+
+// --------------- end nav functions

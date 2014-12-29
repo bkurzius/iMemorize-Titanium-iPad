@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no,width=320" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" />
+	<title>iMemorize HTML</title>
+</head>
+<body onload="Main.init();">
+<div id="header" style="display: none"></div>
+<div id="menuPanel" style="display: none">
+	<div id="navBack" style="visibility:hidden" onclick="MenuBuilder.loadParentMenu();"><img id="arrow-back-chooser" src="images/iphone-images/arrow-back-icon.png" border="0" /></div>
+	<div id="quoteSelectorText"></div>
+	<div id="showHome" onclick="UIController.showHome();"><img id="icon-home-chooser" src="images/iphone-images/icon-home2.png" border="0" /></div>
+	<div id="showSettings" onclick="UIController.showSettings();"><img id="icon-menu-settings-chooser" src="images/iphone-images/icon-menu.png" border="0" /></div>
+	
+</div>
+<div id="breadCrumb">Collections</div>
+	
+	<ul id="quoteSelector" style="display: none"></ul>
+	
+	<div id="gameWindow" style="display: none">
+		<div id="gameButtons">
+			<div id="gameNav">
+					<div class="chooseQuote" id="navBack" onclick="MenuBuilder.selectAnotherQuote()"><img id="arrow-back-game" src="images/iphone-images/arrow-back-icon.png"  border="0" /></div>
+					<div id="showHome" onclick="UIController.showHome();"><img id="icon-home-game" src="images/iphone-images/icon-home2.png" border=0 /></div>
+					<div id="showSettings" onclick="UIController.showSettings()"><img id="icon-menu-settings-game" src="images/iphone-images/icon-menu.png" border=0 /></div>
+					<div id="checkbox" onclick="GameUtils.toggleMenubarCheckbox();"><img id="icon-check" src="images/iphone-images/check-off-menubar.png" border=0 /></div>
+					<div id="editQuote" style="display: none" onclick="UIController.editQuote()" ><img id="icon-menu-edit" src="images/iphone-images/icon-edit-2.png" border=0 /></div>
+			</div>
+			<div id="currQuoteNum"></div>
+		</div>
+	</div>
+
+
+		<div id="gamePanel" class="gamePanel" style="display: none"></div>
+<div id="settings" style="display: none">
+	<div id="menubar">
+		<span style="margin: 6px">Font Size</span>
+		<div id="closeBox"><a href="#" onclick="UIController.hideSettings();">X</a></div>
+	</div>
+</div>
+
+<div id="home" style="display: none">
+    <div id="logo"></div>
+    <div class="homebutton"><a href="javascript:init();"  >Choose a quote ></a></div>
+    <div class="homebutton"><a href="javascript:enterQuote();" >Enter your own quote ></a></div>
+    <div class="homebutton"><a href="javascript:showInstructionsScreen();">Instructions ></a></div>
+</div>
+
+<div id="instructions" style="display: none">
+    <h1>Instructions</h1>
+    <p>iMemorize ws designed to help memorize quotations. Simply choose a quote and then either tap on a word t hide it -- and tap on it again to show it. You can also choose "Hide Words" to hide a few words at a time.</p>
+    <p>Additional features include:</p>
+    <ul>
+        <li>You can enter your own quote in any language</li>
+        <li>Send a quote to a friend -- which includes a link where they can memorize the quote without installing the app</li>
+        <li>Change the font size of the quote so you can read it more easily</li>
+    </ul>
+    <div class="homebutton"><a href="javascript:hideInstructionsScreen();"  >Close</a></div>
+</div>
+
+<div id="about" style="display: none">
+    <h1>About</h1>
+    <p>iMemorize was designed and developed by Brian Kurzius (bkurzius@gmail.com)</p>
+    <div class="homebutton"><a href="javascript:hideAboutScreen();"  >Close</a></div>
+</div>
+
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/Main.js"></script>
+<script type="text/javascript" src="scripts/Global.js"></script>
+<script type="text/javascript" src="scripts/HideGame.js"></script>
+<script type="text/javascript" src="scripts/MenuBuilder.js"></script>
+<script type="text/javascript" src="scripts/Utils.js"></script>
+<script type="text/javascript" src="scripts/GameUtils.js"></script>
+<script type="text/javascript" src="scripts/UiController.js"></script>
+<script type="text/javascript" src="scripts/TitaniumUtils.js"></script>
+<script type="text/javascript" src="scripts/Scroller.js"></script>
+
+</body>
+</html>

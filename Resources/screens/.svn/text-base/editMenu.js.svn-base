@@ -1,0 +1,80 @@
+/**
+ * 
+ */
+
+Ti.include("../scripts/functions.js");
+
+// data
+var _orientationModes = [ Titanium.UI.LANDSCAPE_LEFT,Titanium.UI.LANDSCAPE_RIGHT,Titanium.UI.PORTRAIT,Titanium.UI.UPSIDE_PORTRAIT];
+
+// ui
+var editMenuModal;
+var handleTableClick;
+var nav;
+var table;
+var done;
+var modalWin;
+
+// functions
+var init;
+var draw;
+var handleEditDoneBtnClick;
+var setEventListeners;
+var handleTableClick;
+
+init = function(){
+	draw();
+	setEventListeners();
+};
+
+draw = function(){
+	modalWin = Ti.UI.createWindow();
+	
+	nav = Ti.UI.iPhone.createNavigationGroup({window:modalWin});
+	table = Ti.UI.createTableView({
+		style:Ti.UI.iPhone.TableViewStyle.GROUPED,
+		data:[{title:"Edit Quote",hasChild:true, header:'Saved Quote Options'},{title:"Delete Quote"}]
+	});
+	done = Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.DONE});
+	
+	editMenuModal = Ti.UI.createWindow({navBarHidden:true});
+	editMenuModal.orientationModes = _orientationModes;
+	modalWin.orientationModes = _orientationModes;
+	//add items to stage
+	modalWin.add(table);
+	modalWin.setRightNavButton(done);
+	editMenuModal.add(nav);
+	editMenuModal.open({modal:true});
+};
+
+
+handleEditDoneBtnClick = function(){
+	editMenuModal.close();
+	Titanium.App.fireEvent('closeEditMenuEvent',{});
+};
+
+handleTableClick = function(e){
+	Ti.API.info('handleTableClick breakpoint');
+	
+	if(e.rowData.title=='Edit Quote'){
+		Titanium.API.info('clicked Edit Quote');
+		Titanium.App.Properties.setString("quoteEditAction_preference","edit");
+		Titanium.App.fireEvent('showQuoteEditorEvent',{});
+		Titanium.App.fireEvent('closeEditMenuEvent',{});
+		editMenuModal.close();
+	}else if(e.rowData.title=='Delete Quote'){
+		Titanium.API.info('clicked Delete Quote');
+		Titanium.App.fireEvent('deleteQuoteEvent',{});
+		editMenuModal.close();
+		Titanium.App.fireEvent('closeEditMenuEvent',{});
+	}
+	
+};
+
+setEventListeners = function(){
+	table.addEventListener('click',handleTableClick);
+	done.addEventListener('click',handleEditDoneBtnClick);
+};
+
+// start
+init();

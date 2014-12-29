@@ -1,0 +1,290 @@
+[
+	{"version":"1","name":"Collections","id":"mm","items":
+		[
+			{"name": "Religion/Spirituality","id":"religion","items":
+				[
+					{"name": "The Baha'i Faith","id": "bahai","items":
+						[
+							{"name": "The Hidden Words","id": "hw","items":
+								[
+									{"name":"From the Arabic","file":"hidden-words-arabic.xml","id":"hw-a"},
+									{"name":"From the Persian","file":"hidden-words-persian.xml","id":"hw-p"}
+								]
+							},
+							{"name": "Kitab-i-'Ahd (Book of the Covenant)","file": "bahai-book-of-covenant.xml","id":""},
+							{"name": "Tablet of Carmel","file": "bahai-tablet-of-carmel.xml","id":""},
+							{"name": "Words of Wisdom","file": "words-of-wisdom.xml","id":"hw-a"},
+							{"name": "Prayers","id": "prayer","items":
+								[
+									{"name":"Long Obligatory Prayer","file":"lop.xml","id":"lop"},
+									{"name":"Medium Obligatory Prayer","file":"prayers-medium-obligatory-prayer.xml","id":""},
+									{"name":"Short Obligatory Prayer","file":"prayers-short-obligatory-prayer.xml","id":""},
+									{"name":"Tablet of Visitation","file":"prayers-tablet-of-visitation.xml","id":""},
+									{"name":"Tablet of Visitation (Abdu'l-Baha)","file":"prayers-tablet-of-visitation-abdulbaha.xml","id":""},
+									{"name":"The Long Healing Prayer","file":"long-healing-prayer.xml","id":"lhp"},
+									{"name":"The Tablet of Ahmad","file":"tablet-of-ahmad.xml","id":"toa"},
+									{"name":"The Fire Tablet","file":"bahai-fire-tablet.xml","id":""},
+									{"name":"Aid and Assistance","file":"prayers-aid-and-assistance.xml","id":"paaa"},
+									{"name":"Assistance with Tests","file":"prayers-assistance-with-tests.xml","id":"pawt"},
+									{"name":"Children and Youth","file":"prayers-children-and-youth.xml","id":"pcay"},
+									{"name":"For the Departed","file":"prayers-departed.xml","id":"pd"},
+									{"name":"Detachment","file":"prayers-detachment.xml","id":"pdtch"},
+									{"name":"Evening","file":"prayers-evening.xml","id":"pe"},
+									{"name":"Families","file":"prayers-families.xml","id":"pf"},
+									{"name":"Firmness in the Covenant","file":"prayers-firmness.xml","id":"pfc"},
+									{"name":"Forgiveness","file":"prayers-forgiveness.xml","id":"pf"},
+									{"name":"The Fund","file":"prayers-fund.xml","id":"pfund"},
+									{"name":"Mankind","file":"prayers-mankind.xml","id":"pmankind"},
+									{"name":"Marriage","file":"prayers-marriage.xml","id":"pmarriage"},
+									{"name":"Meetings","file":"prayers-meetings.xml","id":"pmeetings"},
+									{"name":"Morning","file":"prayers-morning.xml","id":"pmorning"},
+									{"name":"Praise and Gratitude","file":"prayers-praise-and-gratitude.xml","id":"ppraise"},
+									{"name":"Protection","file":"prayers-protection.xml","id":"pprotection"},
+									{"name":"Spiritual Assembly","file":"prayers-spiritual-assembly.xml","id":""},
+									{"name":"Spiritual Qualities","file":"prayers-spiritual-qualities.xml","id":""},
+									{"name":"Steadfastness","file":"prayers-steadfastness.xml","id":""},
+									{"name":"Teaching","file":"prayers-teaching.xml","id":""},
+									{"name":"Teaching (Tablets of the Divine Plan)","file":"prayers-tablets-divine-plan.xml","id":""},
+									{"name":"Tests and Difficulties","file":"prayers-tests.xml","id":""},
+									{"name":"Triumph of the Cause","file":"prayers-triumph.xml","id":""},
+									{"name":"Unity","file":"prayers-unity.xml","id":""}
+								]
+							},
+							{"name": "Ruhi Institute Materials","id": "ri","items":
+								[
+									{"name":"Ruhi Book 1","file":"ruhibk1.xml","id":"ruhi1"},
+									{"name":"Ruhi Book 2","file":"ruhibk2.xml","id":"ruhi2"},
+									{"name":"Ruhi Book 3","file":"ruhibk3.xml","id":"ruhi3"},
+									{"name":"Ruhi Book 4","file":"ruhibk4.xml","id":"ruhi4"},
+									{"name":"Ruhi Book 6","file":"ruhibk6.xml","id":"ruhi6"},
+									{"name":"Ruhi Book 7","file":"ruhibk7.xml","id":"ruhi7"},
+									{"name":"Anna's Conversation","id":"anna","items":
+										[
+											{"name":"Part 1","file":"anna1.xml","id":"anna1"},
+											{"name":"Part 2","file":"anna2.xml","id":"ruhi1"},
+											{"name":"Part 3","file":"anna3.xml","id":"anna3"},
+											{"name":"Part 4","file":"anna4.xml","id":"anna4"},
+											{"name":"Part 5","file":"anna5.xml","id":"anna5"},
+											{"name":"Part 6","file":"anna6.xml","id":"anna6"},
+											{"name":"Part 7","file":"anna7.xml","id":"anna7"}
+										]		
+									},
+									{"name":"Junior Youth Materials","id":"jym","items":
+										[
+											{"name":"Breezes of Confirmation","file":"jy-breezes.xml","id":""},
+											{"name":"Walking the Straight Path","file":"jy-walking.xml","id":""}
+										]		
+									}
+								]
+							}
+						]
+					},
+					{"name": "Buddhism","id": "buddhism","items":
+						[
+							{"name":"Buddha","file":"buddha.xml","id":"buddhism"},
+							{"name":"Dalai Lama","file":"dalai-lama.xml","id":"dalai"},
+							{"name":"Thich Nhat Hanh","file":"thich-nhat-hanh.xml","id":"thich"}
+						]
+					},
+					{"name": "Christianity","id": "christianity","items":
+						[
+							{"name": "The Old Testament","id": "ot","items":
+								[
+									{"name":"Genesis 1","file":"genesis-1.xml","id":""},
+									{"name":"Genesis 2","file":"genesis-2.xml","id":""},
+									{"name":"Genesis 3","file":"genesis-3.xml","id":""},
+									{"name":"Genesis 11","file":"genesis-11.xml","id":""},
+									{"name":"Genesis 12","file":"genesis-12.xml","id":""},
+									{"name":"Genesis 13","file":"genesis-13.xml","id":""},
+									{"name":"Exodus 12","file":"exodus-12.xml","id":""},
+									{"name":"Exodus 19","file":"exodus-19.xml","id":""},
+									{"name":"Exodus 20","file":"exodus-20.xml","id":""},
+									{"name":"Deuteronomy 6","file":"deuteronomy-6.xml","id":""}
+								]
+							},
+							{"name": "The New Testament","id": "nt","items":
+								[
+									{"name":"Gospel of Matthew","id": "nt","items":
+										[
+											{"name":"Matthew 1","file":"bible-matthew-1.xml","id":""},
+											{"name":"Matthew 2","file":"bible-matthew-2.xml","id":""},
+											{"name":"Matthew 3","file":"bible-matthew-3.xml","id":""},
+											{"name":"Matthew 4","file":"bible-matthew-4.xml","id":""},
+											{"name":"Matthew 5","file":"bible-matthew-5.xml","id":""},
+											{"name":"Matthew 6","file":"bible-matthew-6.xml","id":""},
+											{"name":"Matthew 7","file":"bible-matthew-7.xml","id":""},
+											{"name":"Matthew 8","file":"bible-matthew-8.xml","id":""},
+											{"name":"Matthew 9","file":"bible-matthew-9.xml","id":""},
+											{"name":"Matthew 10","file":"bible-matthew-10.xml","id":""},
+											{"name":"Matthew 11","file":"bible-matthew-11.xml","id":""},
+											{"name":"Matthew 12","file":"bible-matthew-12.xml","id":""},
+											{"name":"Matthew 13","file":"bible-matthew-13.xml","id":""},
+											{"name":"Matthew 14","file":"bible-matthew-14.xml","id":""},
+											{"name":"Matthew 15","file":"bible-matthew-15.xml","id":""},
+											{"name":"Matthew 16","file":"bible-matthew-16.xml","id":""},
+											{"name":"Matthew 17","file":"bible-matthew-17.xml","id":""},
+											{"name":"Matthew 18","file":"bible-matthew-18.xml","id":""},
+											{"name":"Matthew 19","file":"bible-matthew-19.xml","id":""},
+											{"name":"Matthew 20","file":"bible-matthew-20.xml","id":""},
+											{"name":"Matthew 21","file":"bible-matthew-21.xml","id":""},
+											{"name":"Matthew 22","file":"bible-matthew-22.xml","id":""},
+											{"name":"Matthew 23","file":"bible-matthew-23.xml","id":""},
+											{"name":"Matthew 24","file":"bible-matthew-24.xml","id":""},
+											{"name":"Matthew 25","file":"bible-matthew-25.xml","id":""},
+											{"name":"Matthew 26","file":"bible-matthew-26.xml","id":""},
+											{"name":"Matthew 27","file":"bible-matthew-27.xml","id":""},
+											{"name":"Matthew 28","file":"bible-matthew-28.xml","id":""}
+										]
+									},
+									{"name":"Gospel of Mark","id": "nt","items":
+										[
+											{"name":"Mark 1","file":"bible-mark-1.xml","id":""},
+											{"name":"Mark 2","file":"bible-mark-2.xml","id":""},
+											{"name":"Mark 3","file":"bible-mark-3.xml","id":""},
+											{"name":"Mark 4","file":"bible-mark-4.xml","id":""},
+											{"name":"Mark 5","file":"bible-mark-5.xml","id":""},
+											{"name":"Mark 6","file":"bible-mark-6.xml","id":""},
+											{"name":"Mark 7","file":"bible-mark-7.xml","id":""},
+											{"name":"Mark 8","file":"bible-mark-8.xml","id":""},
+											{"name":"Mark 9","file":"bible-mark-9.xml","id":""},
+											{"name":"Mark 10","file":"bible-mark-10.xml","id":""},
+											{"name":"Mark 11","file":"bible-mark-11.xml","id":""},
+											{"name":"Mark 12","file":"bible-mark-12.xml","id":""},
+											{"name":"Mark 13","file":"bible-mark-13.xml","id":""},
+											{"name":"Mark 14","file":"bible-mark-14.xml","id":""},
+											{"name":"Mark 15","file":"bible-mark-15.xml","id":""},
+											{"name":"Mark 16","file":"bible-mark-16.xml","id":""}
+										]
+									},
+									{"name":"Gospel of Luke","id": "nt","items":
+										[
+											{"name":"Luke 1","file":"bible-luke-1.xml","id":""},
+											{"name":"Luke 2","file":"bible-luke-2.xml","id":""},
+											{"name":"Luke 3","file":"bible-luke-3.xml","id":""},
+											{"name":"Luke 4","file":"bible-luke-4.xml","id":""},
+											{"name":"Luke 5","file":"bible-luke-5.xml","id":""},
+											{"name":"Luke 6","file":"bible-luke-6.xml","id":""},
+											{"name":"Luke 7","file":"bible-luke-7.xml","id":""},
+											{"name":"Luke 8","file":"bible-luke-8.xml","id":""},
+											{"name":"Luke 9","file":"bible-luke-9.xml","id":""},
+											{"name":"Luke 10","file":"bible-luke-10.xml","id":""},
+											{"name":"Luke 11","file":"bible-luke-11.xml","id":""},
+											{"name":"Luke 12","file":"bible-luke-12.xml","id":""},
+											{"name":"Luke 13","file":"bible-luke-13.xml","id":""},
+											{"name":"Luke 14","file":"bible-luke-14.xml","id":""},
+											{"name":"Luke 15","file":"bible-luke-15.xml","id":""},
+											{"name":"Luke 16","file":"bible-luke-16.xml","id":""},
+											{"name":"Luke 17","file":"bible-luke-17.xml","id":""},
+											{"name":"Luke 18","file":"bible-luke-18.xml","id":""},
+											{"name":"Luke 19","file":"bible-luke-19.xml","id":""},
+											{"name":"Luke 20","file":"bible-luke-20.xml","id":""},
+											{"name":"Luke 21","file":"bible-luke-21.xml","id":""},
+											{"name":"Luke 22","file":"bible-luke-22.xml","id":""},
+											{"name":"Luke 23","file":"bible-luke-23.xml","id":""},
+											{"name":"Luke 24","file":"bible-luke-24.xml","id":""}
+										]
+									},
+									{"name":"Gospel of John","id": "nt","items":
+										[
+											{"name":"John 1","file":"bible-john-1.xml","id":""},
+											{"name":"John 2","file":"bible-john-2.xml","id":""},
+											{"name":"John 3","file":"bible-john-3.xml","id":""},
+											{"name":"John 4","file":"bible-john-4.xml","id":""},
+											{"name":"John 5","file":"bible-john-5.xml","id":""},
+											{"name":"John 6","file":"bible-john-6.xml","id":""},
+											{"name":"John 7","file":"bible-john-7.xml","id":""},
+											{"name":"John 8","file":"bible-john-8.xml","id":""},
+											{"name":"John 9","file":"bible-john-9.xml","id":""},
+											{"name":"John 10","file":"bible-john-10.xml","id":""},
+											{"name":"John 11","file":"bible-john-11.xml","id":""},
+											{"name":"John 12","file":"bible-john-12.xml","id":""},
+											{"name":"John 13","file":"bible-john-13.xml","id":""},
+											{"name":"John 14","file":"bible-john-14.xml","id":""},
+											{"name":"John 15","file":"bible-john-15.xml","id":""},
+											{"name":"John 16","file":"bible-john-16.xml","id":""},
+											{"name":"John 17","file":"bible-john-17.xml","id":""},
+											{"name":"John 18","file":"bible-john-18.xml","id":""},
+											{"name":"John 19","file":"bible-john-19.xml","id":""},
+											{"name":"John 20","file":"bible-john-20.xml","id":""},
+											{"name":"John 21","file":"bible-john-21.xml","id":""}
+										]
+									},
+									{"name":"Excerpts from Romans","file":"bible-romans.xml","id":""},
+									{"name":"Excerpts from 1 Corinthians ","file":"bible-1-corinthians.xml","id":""}
+								]
+							}
+							
+						]
+					},
+					{"name": "Islam","id": "islam","items":
+						[
+							{"name": "Quran","id": "quran","items":
+								[
+									{"name":"Surah 1: The Opening","file":"quran-surah-1.xml","id":""},
+									{"name":"Surah 2. The Cow","file":"quran-surah-2.xml","id":""},
+									{"name":"Surah 3. The Family of Imran","file":"quran-surah-3.xml","id":""},
+									{"name":"Surah 6. The Cattle","file":"quran-surah-6.xml","id":""},
+									{"name":"Surah 7. The Elevated Places","file":"quran-surah-7.xml","id":""},
+									{"name":"Surah 11. Hud","file":"quran-surah-11.xml","id":""},
+									{"name":"Surah 18. The Cave","file":"quran-surah-18.xml","id":""},
+									{"name":"Surah 25. The Criterion ","file":"quran-surah-25.xml","id":""},
+									{"name":"Surah 29. The Spider","file":"quran-surah-29.xml","id":""},
+									{"name":"Surah 36: Ya Seen","file":"quran-surah-36.xml","id":""},
+									{"name":"Surah 45. The Kneeling","file":"quran-surah-45.xml","id":""}
+								]
+							}
+						]
+					},
+					{"name": "Judaism","id": "judaism","items":
+						[
+							{"name": "Torah","id": "torah","items":
+								[
+									{"name":"Bereshit(Genesis) 1","file":"judaism-genesis-1.xml","id":""},
+									{"name":"Bereshit(Genesis) 2","file":"judaism-genesis-2.xml","id":""},
+									{"name":"Bereshit(Genesis) 3","file":"judaism-genesis-3.xml","id":""},
+									{"name":"Bereshit(Genesis) 11","file":"judaism-genesis-11.xml","id":""},
+									{"name":"Bereshit(Genesis) 12","file":"judaism-genesis-12.xml","id":""},
+									{"name":"Bereshit(Genesis) 13","file":"judaism-genesis-13.xml","id":""},
+									{"name":"Shemot(Exodus) 12","file":"judaism-exodus-12.xml","id":""},
+									{"name":"Shemot(Exodus) 19","file":"judaism-exodus-19.xml","id":""},
+									{"name":"Shemot(Exodus) 20","file":"judaism-exodus-20.xml","id":""},
+									{"name":"Devarim(Deuteronomy) 6","file":"judaism-deuteronomy-6.xml","id":""}
+								]
+							}
+						]
+					},
+					{"name":"Taoism","file":"taoism.xml","id":"taoism"},
+				]
+			},
+			{"name":"Philosophy", "id":"phil","items":
+				[
+					{"name":"Aristotle","file":"aristotle.xml","id":"aris"},
+					{"name":"Confucius","file":"confucius.xml","id":"conf"},
+					{"name":"Descartes","file":"descartes.xml","id":"conf"},
+					{"name":"Plato","file":"plato.xml","id":"conf"}
+					
+				]
+			},
+			{"name": "Historical Figures","id": "hist","items":
+				[
+					{"name":"Albert Einstein","file":"einstein.xml","id":"franklin"},
+					{"name":"Benjamin Franklin","file":"benjamin-franklin.xml","id":"franklin"},
+					{"name":"Helen Keller","file":"helen-keller.xml","id":"keller"},
+					{"name":"Mahatma Gandhi","file":"gandhi.xml","id":"ghandi"},
+					{"name":"Martin Luther King Jr.","file":"martin-luther-king-jr.xml","id":"mlk"}
+				]
+			},	
+			{"name": "Inspiration","id": "insp","items":
+				[
+					{"name":"Bite-sized wisdom","file":"bite-sized-wisdom.xml","id":"bite"}
+				]
+			},	
+			{"name": "Saved Quotes","id": "mq","items":
+				[
+					{"name":"selected quotes","file":"savedQuotes.xml","id":"mqq"}
+				]
+	
+			}
+		]
+	}
+]

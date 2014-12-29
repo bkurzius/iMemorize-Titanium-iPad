@@ -1,0 +1,553 @@
+/* css style */
+
+body{
+	color: #222;
+	font-family:"Helvetica Neue";
+	font-size:10pt;
+	margin:0;
+	padding:0;
+	/*background-image:url('../images/bg.png');*/
+}
+
+#header{
+	background-image:url("../images/nav/logo-wide.jpg");
+	height:35px;
+	display:none;
+}
+
+/* ---- menu styles ----------*/
+
+#menuPanel ul,#gameButtons ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+	height:40px;
+}
+
+#menuPanel ul li a,#gameButtons ul li a{
+	background-color:#FFFFFF;
+	border: 1px solid #999999;
+	color:#222222;
+	display:block;
+	font-size:12px;
+	font-weight:bold;
+	margin-bottom:-1px;
+	padding:12px 10px;
+	text-decoration:none;
+}
+
+.truncatedQuote{
+	white-space:nowrap;
+}
+
+
+
+/* --- game classes and styles ---- */
+
+
+.hiddenWord{
+	background-color:#FFFFFF;
+	display:inline;
+	float:left;
+	padding:3px 1px 4px 1px;
+	margin:1px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+	
+}
+
+.indentRTL{
+	margin-right:20px !important;
+}
+
+.indentLTR{
+	margin-left:20px !important;
+}
+
+.hiddenWordRTL{
+ 	background-color:#FFFFFF;
+	display:inline;
+	float:right;
+	padding:3px 1px 4px 1px;
+	margin:1px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+	direction:rtl;	
+}
+
+.hiddenWordLogogram{
+	background-color:#FFFFFF;
+	display:inline;
+	float:left;
+	padding:1px 1px 2px 1px;
+	margin:0px;
+	font-size:20px;	
+	cursor:pointer;
+	border:1px solid #FFFFFF;
+}
+
+
+.hide{
+ 	color:#FFFFFF;
+	border:1px solid #777777;
+	-webkit-box-shadow: 1px 1px 3px #888;
+	-moz-box-shadow: 1px 1px 3px #888;
+ }
+ 
+.show{
+	color:#000000;
+	border:1px solid #FFFFFF;	
+}
+ 
+.source, .introtext{
+	width:100%;
+	font-family:"Georgia";
+	font-style:italic;
+	float:left;
+	font-size:13px;
+	font-weight:200;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-right:6px;
+	clear:both;
+	line-height:19px;
+}
+.source a{
+	color: #000000;
+	text-decoration:none;
+	border-bottom: 1px dotted #AAAAAA;
+}
+	
+
+#gameWindow{
+	margin:0;
+	list-style:none;	
+}
+
+#gameButtons{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	width:100%;
+}
+
+#gameNav, #gameNavBottom{
+	width:100%;
+	height:40px;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #666, #000);
+	background-color:#333;
+	font-family:Helvetica;
+	font-size:16px;
+	font-weight:bold;
+	border:0 !important;
+}
+
+#gameNavButtonHolder{
+	width:340px;
+	margin-right:auto;
+	margin-left:auto;
+	border:0 !important;
+}
+
+#gameNavButtonHolder div{
+	float:left;
+	height:35px;
+	line-height:35px;
+	border-right: 2px solid #555577;
+	padding-right:15px;
+	padding-left:15px;
+	
+}
+
+/* for the first and last menuDivs make the font smaller*/
+#gameNavButtonHolder div:first-child{
+
+}
+
+#gameNavButtonHolder div:last-child{
+
+	border-right: 0;
+}
+
+
+#gameNavBottom a{
+	color:#FFFFFF;
+	text-shadow: 1px 1px 4px #000000;
+	text-decoration:none;
+}
+
+
+#gamePanel{
+	font-family:"Helvetica Neue";
+	font-size:14pt;
+	font-weight:bold;
+	padding:10px;
+	background-color:#FFFFFF;
+	overflow:auto;
+	/*height:300px;*/
+}
+
+
+
+/* --- end of game styles ---- */
+
+#currQuoteNum, #breadCrumb{
+	/*background-image: -webkit-gradient(linear,left top,left bottom, from(#B4D109), to(#8DA701));
+	background: -moz-linear-gradient(top, #B4D109, #8DA701);
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#93AE02), to(#6B7E00));
+	background: -moz-linear-gradient(top, #93AE02, #6B7E00);*/
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#B4D109), to(#6B7E00));
+	background: -moz-linear-gradient(top, #B4D109, #6B7E00);
+	padding:3px;
+	font-family:"Georgia";
+	line-height:20px;
+	color:#FFF;
+	font-size:16px;
+	font-weight:bold;
+	text-shadow:1px 1px 2px #000;
+	margin-right:auto;
+	margin-left:auto;
+	text-align:center;
+}
+
+#prevQuoteBtn{
+	background-image:url('../images/nav/nav_prev_on.jpg');
+}
+#nextQuoteBtn{
+	background-image:url('../images/nav/nav_next_on.jpg');
+}
+
+
+
+#menubar #closeBox{
+	/*padding:3px;*/
+	float:right;
+	border-left:1px solid #999999;
+	line-height:35px;
+	width:35px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.menubarButtonToggleOn{
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#000000), to(#333333));
+	background: -moz-linear-gradient(top, #000000, #333333);
+}
+
+#closeBox a{
+	text-decoration:none;
+	color:#999999;
+}
+
+
+
+.chooseQuote{
+	border-right:1px solid #66666 !important;
+	float:left;
+	margin-left:0px;
+	
+}
+
+
+#gameNav #showSettings, #gameNav #addQuote, #gameNav  #editQuote, #gameNav #showHome{
+	float:right;
+	width:40px;
+	height: 40px;
+	padding-top:0px;
+	border-left:1px solid #666666;
+	line-height:35px; 
+}
+
+#gameNav #showSettings a, #gameNav #addQuote a, #gameNav  #editQuote a{
+	color:#FFFFFF;
+	text-decoration:none;
+	font-family:"Helvetica Neue";
+	font-size:18px;
+	font-weight:bold;
+}
+
+/* the quoteSelector nav panel */
+
+#menuPanel{
+	width:100%;
+	/*border:1px solid #555577*/
+	height:40px;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #666, #000);
+	background-color:#333;
+	font-family:"Helvetica Neue";
+	font-size:16px;
+	font-weight:bold;
+	text-align:center;
+	line-height:35px;
+	color:#FFFFFF;
+}
+
+
+#navBack{
+	width:39px;
+	float:left;
+	height:40px;
+	border-right:1px solid #666666;
+}
+
+#navBack a{
+	color:#FFFFFF;
+	text-decoration:none;
+	font-size:18px;
+	font-weight:bold;
+}
+
+#navBackHidden{
+	color:#333333;
+}
+
+
+
+#showSettings, #checkbox, #showHome{
+	float:right;
+	width:40px;
+	height:40px;
+	border-left:1px solid #666666;
+}
+
+
+/* the quote Selector styles */
+
+#quoteSelectorText{
+	float:left;
+	height:30px;
+	margin-right:0px;
+	margin-left:40px;
+	text-align:center;
+	/*border:1px solid #999999;*/
+	overflow:hidden;
+	font-size:12px;
+}
+
+#quoteSelector{
+	list-style-type: none;
+	display: inline;
+	margin:0;
+	padding:0;
+}
+
+#quoteSelector ul{
+	list-style:none;
+	display: inline;
+	margin:0;
+	padding:0;
+}
+
+#quoteSelector li{
+	padding-left:10px;
+	font-size:16px;
+	font-weight:bold;
+	height:40px;
+	line-height:45px;
+	border-bottom:1px solid #666666;
+	background-color:#FFFFFF;
+	overflow:hidden;
+}
+
+.checkOn{
+	background-image:url('../images/check-on.png');
+	background-repeat:no-repeat;
+}
+
+.checkOff{
+	background-image:url('../images/check-off.png');
+	background-repeat:no-repeat;
+}
+
+#quoteSelector img{
+	
+	padding:0px;
+	border:0px;
+	margin:0px;
+	
+}
+
+#quoteSelector li a{
+	text-decoration:none;
+	color:#000000;
+}
+
+#quoteSelector ul li{
+	display: inline;
+	border-bottom:none;
+	margin-left:10px;
+}
+
+/* end of quote selector */
+
+.quoteSelectorItemRTL{
+	direction:rtl;
+	padding-right:5px;
+	background-color:transparent;
+}
+
+.memorizedTrue{
+	width:100px;
+	background: transparent url("../images/nav/nav_prev_on.jpg") no-repeat top left;
+}
+
+
+
+.quoteSelectorHeader{
+	color:#FFFFFF;
+	background-color:#666666;
+	margin:0px;
+	padding:10px;
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+}
+
+
+
+
+
+#noSavedQuotes{
+	width:100%;
+	margin:0px;
+	padding:10px;
+	font-size:14px;
+	font-weight:bold;
+	color:#999999;
+	height:40px;
+	margin-right:auto;
+	margin-left:auto;
+	border-bottom:1px solid #CCCCCC;	
+}
+
+
+
+
+/* ------- general styles ----------*/
+
+.RTL{
+	direction:rtl;
+}
+
+.LTR{
+	direction:ltr;
+}
+
+.clear{
+	clear:both;	
+}
+
+/* ---------page section styles ---------*/
+
+#home, #instructions, #about{
+	font-family:Georgia;
+	font-size:15px;
+	width:100%;
+	/*height:600px;*/
+	border:1px solid #334499;
+	padding:20px;
+	top:0px;
+	margin:0px;
+	background-color:#849B02;
+	color:#FFFFFF;
+}
+
+#instructions, #about{
+	position:absolute;
+	top:0px;
+}
+
+#home #logo{
+	margin-right:auto;
+	margin-left:auto;
+	margin-top:20px;
+	height:50px;
+	width:233px;
+	background-image:url('../images/logo.png');
+}
+
+#home h1, #instructions h1, #about h1{
+	margin-right:auto;
+	margin-left:auto;
+	
+}
+.homebutton{
+	padding:10px;
+	width:200px;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #660, #000);
+	-webkit-box-shadow: 1px 2px 3px #888;
+	-moz-box-shadow: 1px 2px 3px #888;
+	margin-right:auto;
+	margin-left:auto;
+	margin-bottom:10px;
+	border:0px;
+	borderRadius:10px;
+}
+
+.homebutton a{
+	text-decoration:none;
+	color:#FFFFFF;
+}
+
+
+/* ------- end general styles ----------*/
+
+/* ----- for web version ------*/
+.buttonDisabled{
+ 	color:#999999;
+	background-color:#AAAAAA;
+	cursor:none;
+ }
+ 
+
+.btnDisabled{
+	color:#999999;
+} 
+
+
+#settings{
+	position:absolute;
+	top:80px;
+	left:50px;	
+	width:220px;
+	border:1px solid #999999;
+	background-color:#FFFFFF;
+	font-size:18px;
+	-webkit-box-shadow: 10px 10px 6px #888;
+	-moz-box-shadow: 10px 10px 6px #888;		
+}
+
+#settings #contents{
+	padding: 10px;
+	text-align:center;
+	margin-right:auto;
+	margin-left:auto;
+}
+
+#settings #menubar{
+	color:#FFFFFF;
+	text-shadow: 1px 1px 4px #000000;
+	height:35px;
+	line-height:35px;
+	border-bottom:1px solid #999999;
+	text-align:center;
+	font-weight:bold;
+	background-image: -webkit-gradient(linear,left top,left bottom, from(#666), to(#000));
+	background: -moz-linear-gradient(top, #666, #000);
+	background-color:#CCCCCC;
+}
+
+#navPanel{
+	margin-left:auto;
+	margin-right:auto;
+	width:100%;	
+}
+
+
+/* ---- end web version styles ------ */

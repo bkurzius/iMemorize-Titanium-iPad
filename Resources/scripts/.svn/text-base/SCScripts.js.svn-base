@@ -1,0 +1,81 @@
+// JavaScript Document
+
+//this extract the number from a px value
+function getPxValue(myVal){
+	return Number(myVal.replace("px",""));
+};
+
+// this lets us add two numbers (in either number or px format) and return the total in px format
+function addPXValues(){
+		var total = 0;
+		for(var i=0;i<arguments.length;i++){
+			total += getPxValue(arguments[i]);
+		}
+		return total + "px";
+};
+
+// shortcut to getElementById()
+function getElement(divName){
+	return document.getElementById(divName);
+};
+
+/*
+function preloadImages() { 
+  var d=document; 
+	if(d.images){ 
+		if(!d.pl) {d.pl=[];}
+		var i;
+		var j=d.pl.length;
+		var a=preloadImages.arguments; 
+		for(i=0; i<a.length; i++){
+			if (a[i].indexOf("#")!=0){ 
+				d.pl[j]=new Image(); 
+				d.pl[j++].src=a[i];
+			}
+		}
+	}
+};
+*/
+
+function trace(s){
+	//document.getElementById("trace").innerHTML += "<br />" + s;
+};
+
+function clearTrace(){
+	//document.getElementById("trace").innerHTML = "";
+};
+
+// this returns the selected value from a dropdown
+function getSelectedValueFromDropdown(dropdown){
+	var tIndex = dropdown.selectedIndex;
+	var tValue = dropdown[tIndex].value;
+	return tValue;	
+};
+
+// trim string and add elipses. pass in string and the numbers of letters 
+// to truncate to -- the function then moves back to the last space and adds elipses
+// if its a logogram language we trim on 
+function trimString(strText,numLetters,elipses,isLogogramLanguage){
+	var finalString;	
+	var strElipse;
+	var truncString = strText.substring(0,numLetters);
+	if(elipses){
+		strElipse="...";
+	}else{
+		strElipse="";
+	}
+	// if this is a logogram language we can't break it on a space 
+	// so we just grab the length of the characters
+	if(isLogogramLanguage){
+		// the symbols are much longer than alphanumerics so we need to get less letters
+		var tempStr = strText.substring(0,Math.round(numLetters/2.25));
+		finalString = tempStr + strElipse;
+	}else{
+		//var indexOfSpace = truncString.lastIndexOf(" ");
+		//finalString = truncString.substring(0,indexOfSpace) + strElipse;
+		finalString = truncString + strElipse;
+	}	
+	return finalString;
+};
+
+

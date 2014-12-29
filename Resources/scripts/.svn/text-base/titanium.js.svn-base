@@ -1,0 +1,147 @@
+var sendQuoteToDevice;
+var titaniumFireEvent;
+var openQuoteURL;
+var fireTitaniumAlert;
+var titaniumCloseInstructions;
+// we assume that app is connected
+var online = true;
+
+
+
+// this is a function where we can disable the titanium 
+titaniumFireEvent = function(evtName,data){
+	//alert("Fire a titanium event: " + evtName);
+	Titanium.App.fireEvent(evtName,data);
+};
+
+
+sendQuoteToDevice = function(_quote,_introtext,_author,_reference,_language,_id,_url){
+	//alert('sendQuoteToDevice()' + _language + ' | ' + _id);
+	var quoteData = {data:{quote:_quote,introtext:_introtext,author:_author,reference:_reference,language:_language,id:_id,url:_url,isSaved:isCurrQuoteSaved()}};
+	titaniumFireEvent("setCurrentQuote",quoteData);
+};
+
+// this tells Titanium to open the current quote url if one exists
+openQuoteURL = function(){
+	//alert("opneQuoteURL()");
+	titaniumFireEvent("openQuoteURL","");
+};
+
+fireTitaniumAlert = function(_title,_text,_buttons ){
+	var data = {'title': _title, 'text': _text, 'buttons': _buttons};
+	titaniumFireEvent("fireAlert",data);
+};
+
+titaniumCloseInstructions = function(){
+	titaniumFireEvent("closeInstructions",data);
+};
+
+
+
+//*
+//-------- Titanium eventListeners ----------
+
+Titanium.App.addEventListener('hideWords', function(e) {
+		HideQuoteGame.hideWords();
+});
+
+Titanium.App.addEventListener('showAllWords', function(e) {
+		HideQuoteGame.showAllWords();
+});
+
+Titanium.App.addEventListener('loadPrevQuote', function(e) {
+		HideQuoteGame.buildPrevQuote();
+});
+
+Titanium.App.addEventListener('loadNextQuote', function(e) {
+		HideQuoteGame.buildNextQuote();
+});
+
+Titanium.App.addEventListener('QuotesLoaded', function(e) {
+	// save new xml
+	savedQuotesCollection = e.data;
+	currQuoteSet = savedQuotesCollection;
+	buildSavedQuotesSelector();
+});
+
+Titanium.App.addEventListener('fontSizeChanged', function(e) {
+	HideQuoteGame.changeTextSize(e.data);
+});
+
+Titanium.App.addEventListener('QuoteEdited', function(e) {
+	savedQuotesCollection = e.data; 
+	currQuoteSet = savedQuotesCollection;
+	MenuBuilder.buildSavedQuotesSelector();
+	HideQuoteGame.buildCurrQuote();
+});
+
+Titanium.App.addEventListener('QuoteAdded', function(e) {
+	savedQuotesCollection = e.data;
+	currQuoteSet = savedQuotesCollection;
+	buildSavedQuotesSelector();
+	HideQuoteGame.buildCurrQuote();
+});
+
+Titanium.App.addEventListener('AddAndMemorize', function(e) {
+	savedQuotesCollection = e.data;
+	currQuoteSetName="Saved Quotes";
+	currQuoteSet = savedQuotesCollection;
+	MenuBuilder.buildSavedQuotesSelector();
+	// set the currQuoteIndex to the last one that was added to save quotes
+	currQuoteIndex = (jQuery(currQuoteSet).find("quote").length)-1;
+	HideQuoteGame.buildCurrQuote();
+});
+
+Titanium.App.addEventListener('QuoteDeleted', function(e) {
+	savedQuotesCollection = e.data;
+	currQuoteSet = savedQuotesCollection;
+	selectAnotherQuote();
+});
+
+Titanium.App.addEventListener('networkOnline', function(e) {
+	//alert('e.online: ' + e.online);
+	online = e.online;
+});
+
+// this is fired by the app on load to send the memorizedQuotes array
+Titanium.App.addEventListener('MemorizedQuotesArraySent', function(e) {
+	memorizedArray = e.data.split(",");
+});
+
+Titanium.App.addEventListener('CloseAddQuote', function(e) {
+	//HideQuoteGame.buildCurrQuote();
+});
+
+Titanium.App.addEventListener('showHome', function(e) {
+	hideAllScreens();
+	showHomeScreen();
+});
+
+Titanium.App.addEventListener('showAbout', function(e) {
+	//hideAllScreens();
+	showAboutScreen();
+});
+
+Titanium.App.addEventListener('showInstructions', function(e) {
+	//hideAllScreens();
+	showInstructionsScreen();
+});
+
+Titanium.App.addEventListener('showQuoteSelector', function(e) {
+	//alert('init');
+	init();
+});
+
+Titanium.App.addEventListener('orientationChangeEvent', function(e) {
+	if(e.orientation==='landscape'){
+		quoteSelectorTruncateLength=QUOTE_SELECTOR_TRUNCATE_LENGTH_LANDSCAPE;
+	}else{
+		quoteSelectorTruncateLength=QUOTE_SELECTOR_TRUNCATE_LENGTH_PORTRAIT;
+	}
+	if(currMode === CURR_MODE_QUOTE_SELECTOR){
+		MenuBuilder.buildQuoteSelector(currQuoteSet);
+	}
+});
+
+//*/
+

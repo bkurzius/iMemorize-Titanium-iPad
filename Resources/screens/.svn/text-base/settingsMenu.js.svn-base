@@ -1,0 +1,155 @@
+/**
+ * 
+ */
+
+Ti.include("../scripts/functions.js");
+
+var _orientationModes = [ Titanium.UI.LANDSCAPE_LEFT,Titanium.UI.LANDSCAPE_RIGHT,Titanium.UI.PORTRAIT,Titanium.UI.UPSIDE_PORTRAIT];
+var modal;
+var modalWin;
+var setSettingsListeners;
+var setPickerData;
+var handlePickerDoneBtnClick;
+var handlePickerCancelBtnClick;
+var handleModalDoneClick;
+var handleTableClick;
+var picker;
+var init;
+
+// create the animations
+
+settingsWin = Ti.UI.currentWindow;
+settingsWin.orientationModes = _orientationModes;
+
+
+//create the animations
+var slide_in =  Titanium.UI.createAnimation({bottom:0});
+var slide_out =  Titanium.UI.createAnimation({bottom:-251});
+modal = Ti.UI.createWindow({navBarHidden:false,height:10});
+modal.orientationModes = _orientationModes;
+var modal_done_btn = Titanium.UI.createButton({
+	systemButton:Titanium.UI.iPhone.SystemButton.DONE
+});
+modalWin = Ti.UI.createWindow({});
+
+var nav = Ti.UI.iPhone.createNavigationGroup({window:settingsWin});
+
+var table = Ti.UI.createTableView({
+	style:Ti.UI.iPhone.TableViewStyle.GROUPED,
+	data:[{title:"Add Quote",hasChild:true, header:'Options and Settings'},
+	      {title:"Quote Font Size",hasChild:true},
+	      {title:"Email Quote",hasChild:true}
+	      ]
+});
+
+var picker_view = Titanium.UI.createView({height:251,bottom:-251});
+var picker_cancel_btn =  Titanium.UI.createButton({title:'Cancel',style:Titanium.UI.iPhone.SystemButtonStyle.BORDERED});	 
+var picker_done_btn =  Titanium.UI.createButton({title:'Done',style:Titanium.UI.iPhone.SystemButtonStyle.DONE});	 
+var spacer =  Titanium.UI.createButton({systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE});	 
+var toolbar =  Titanium.UI.createToolbar({top:0,items:[picker_cancel_btn,spacer,picker_done_btn]});
+var picker_data = [];
+var setSettingsListeners;
+var setPickerData;
+var handlePickerDoneBtnClick;
+var handlePickerCancelBtnClick;
+var handleModalDoneClick;
+var handleTableClick;
+
+
+// platform specific values
+var fontSizes = [12,14,16,18,20,22,24,26,28,30];
+
+
+var _currMode = Titanium.App.Properties.getString("currMode_preference");
+
+setSettingsListeners = function(){
+	picker_cancel_btn.addEventListener('click',handlePickerCancelBtnClick);	
+	picker_done_btn.addEventListener('click',handlePickerDoneBtnClick);
+	modal_done_btn.addEventListener('click',handleModalDoneClick);	
+	table.addEventListener('click',handleTableClick);
+};
+/*
+ *  build the picker data
+ *  this sets the initial selected value for the picker
+ *  but it appears that it does not work properly just to set the row to "selected"
+ *  so instead we set a fontSizeRowIndex_preference -- indicating which row should be selected
+ *  and then we use the picker.setSelectedRow() when the user opens the picker
+ *  its a HACK but it works
+ */
+setPickerData = function(){
+	Titanium.API.info('build the picker data');
+	var fontSizePref = Titanium.App.Properties.getString("fontSize_preference");
+	Titanium.API.info('font size preference:' + fontSizePref);
+	for(var i=0;i<fontSizes.length;i++){
+		Titanium.API.info('fontSizes[i].toString(): ' + fontSizes[i].toString());
+		if(fontSizes[i].toString()==fontSizePref){
+			Titanium.API.info('!!!!COOL: set selected for this one');
+			Titanium.App.Properties.setString("fontSizeRowIndex_preference",i.toString());
+			picker_data.push( Titanium.UI.createPickerRow({title:fontSizes[i].toString(),selected:true}));
+		}else{
+			Titanium.API.info('Dont set selected for this one');
+			picker_data.push( Titanium.UI.createPickerRow({title:fontSizes[i].toString()}));
+		}
+	}
+	
+
+};
+
+// -- event handlers ----
+
+handlePickerDoneBtnClick = function(){
+	picker_view.animate(slide_out);
+	Titanium.App.fireEvent('fontSizeChanged',{data:picker.getSelectedRow(0).title});
+	Titanium.App.Properties.setString("fontSize_preference",picker.getSelectedRow(0).title);
+	if(_currMode!=='game'){
+		showAlertDialog('Alert','The font size will be changed on the game memorizer screen.',['OK']);
+	}
+};
+
+handlePickerCancelBtnClick = function (){
+	picker_view.animate(slide_out);
+};
+
+handleModalDoneClick = function(){
+	modal.close();
+	Titanium.App.fireEvent('closeSettingsMenuEvent',{});
+};
+
+handleTableClick = function(e){
+	var itemTitle = e.rowData.title;
+	if(itemTitle==='Add Quote'){
+		Titanium.API.info('clicked Add Quote');
+		Titanium.App.Properties.setString("quoteEditAction_preference","add");
+		//showQuoteEditor();
+		modal.close();
+		Titanium.App.fireEvent('closeSettingsMenuEvent',{});
+		Titanium.App.fireEvent('showQuoteEditorEvent',{});
+	}else if(itemTitle==='Quote Font Size'){
+		Titanium.API.info('clicked Font Size');
+		setPickerData();
+		picker_view.animate(slide_in);
+		picker.setSelectedRow(0,Number(Titanium.App.Properties.getString("fontSizeRowIndex_preference")));
+		Titanium.API.info('font preference:' + Titanium.App.Properties.getString("fontSize_preference"));
+	}else if(itemTitle==='Email Quote'){
+		Titanium.App.fireEvent('emailQuoteEvent',{});
+	}
+};
+
+init = function(){
+	if(isiPad()){
+		fontSizes = [20,22,24,26,28,30,32,34,36,38,40,47,50,52,54,56,58,60,62,64,66,68,70];
+	}
+	picker = Titanium.UI.createPicker({top:43,selectionIndicator:true});
+	setPickerData();
+	picker.add(picker_data);
+	picker_view.add(toolbar);
+	picker_view.add(picker);
+	modalWin.add(table);
+	modalWin.add(picker_view);
+	modal.add(modalWin);
+	modal.setRightNavButton(modal_done_btn);
+	modal.open({modal:true});
+	setSettingsListeners();
+};
+
+init();

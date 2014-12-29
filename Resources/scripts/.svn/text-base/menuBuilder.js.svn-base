@@ -1,0 +1,390 @@
+ // --------------- menu data functions
+var MenuBuilder = {};
+var currQuoteCollection;
+var currQuoteCollectionItems;
+var currQuoteCollectionName;
+var currQuoteSetName;
+var currQuoteSet;
+var JsonMenu;
+var selectAnotherQuote;
+var addToMenuHistory;
+var getMenuHistoryLength;
+var getMenuHistoryItem;
+var checkHistoryButton;
+var hideMenuBackButton;
+var showMenuBackButton;
+var addToMemorizedArray;
+var removeFromMemorizedArray;
+var toggleMemorizedItem;
+var toggleMenubarCheckbox;
+var isInMemorizedArray;
+var updateMemorizedArray;
+var menuHistory = [];
+var isCurrQuoteSaved;
+var QUOTE_SELECTOR_TRUNCATE_LENGTH_LANDSCAPE = 48;
+var QUOTE_SELECTOR_TRUNCATE_LENGTH_PORTRAIT = 28;
+
+if(navigator.userAgent.match(/iPad/i) != null){
+	QUOTE_SELECTOR_TRUNCATE_LENGTH_LANDSCAPE = 80;
+	QUOTE_SELECTOR_TRUNCATE_LENGTH_PORTRAIT = 50;
+}
+var quoteSelectorTruncateLength = QUOTE_SELECTOR_TRUNCATE_LENGTH_PORTRAIT;
+
+
+// is the callback for the JSON menu loader 
+MenuBuilder.menuLoadedHandler = function(response){
+	// this happens when the app first loads the menu json object
+	currQuoteCollection = response[0];
+	currMenuNodeIndex = 0;
+	addToMenuHistory(currQuoteCollection);
+	MenuBuilder.buildMenu(currQuoteCollection);
+	JsonMenu = response[0];
+};
+
+// if the fromHistory is true it means that this comes from the loadParentMenu 
+// and the collection parents have already been defined in the history object 
+MenuBuilder.buildMenu = function (quoteCollection,fromHistory){
+	
+	var tempQuoteCollection = quoteCollection;
+	var thisNodeName;
+	var thisNodeParentName;
+	var menuPanel = getElement("menuPanel");
+	var selector = getElement("quoteSelector");
+	
+	// we need to position the window to the top in case a user has scrolled to a lower position in the previous menu
+	
+	currMode = CURR_MODE_COLLECTION_SELECTOR;
+	//$('#quoteSelectorText').html("Quote Collections");	
+	currQuoteCollectionItems = tempQuoteCollection.items;
+	if(!fromHistory){
+		tempQuoteCollection.parent = currQuoteCollection;
+	}
+	thisNodeName = tempQuoteCollection.name;
+	thisNodeParentName = tempQuoteCollection.parent.name;
+	currQuoteCollection = tempQuoteCollection;
+	
+	jQuery("#quoteSelector li").remove();
+	jQuery("#quoteSelector div").remove();
+		
+	// now add the heading bar if the parent is not undefined or 'menu'
+	if(thisNodeParentName!==undefined){
+		if(currQuoteCollection.parent.name!=currQuoteCollection.name){
+			//setTitle = currQuoteCollection.parent.name + " > " + currQuoteCollection.name;
+			setTitle = currQuoteCollection.name;
+		}else{
+			setTitle = currQuoteCollection.name;
+		}
+			
+		$('#breadCrumb').html(setTitle);
+		//$('#quoteSelectorText').html(setTitle);
+	}	
+	
+	for (var i = 0; i < currQuoteCollectionItems.length; i++) {
+		var thisItem = currQuoteCollectionItems[i];
+		var menuItem = document.createElement("li");		
+		menuItem.innerHTML = "<a href=''>" + thisItem.name + "</a>";
+		menuItem.id = thisItem.id;
+		selector.appendChild(menuItem);
+		jQuery(menuItem).click(function(){
+			MenuBuilder.setMenu(jQuery("#quoteSelector li").index(this));
+			return false;
+		});
+	}
+	checkHistoryButton();
+	window.scroll(0,0);
+};			
+
+
+MenuBuilder.setMenu = function (index){
+	currQuoteSet = currQuoteCollection.items[index];
+	currQuoteSet.parent = currQuoteCollection;
+	currQuoteSetName = currQuoteCollection.items[index].name;	
+	// if this node name is "Saved Quotes" then go directly to build the quote selector 
+	// using the variable that was loaded from Titanium
+	if(currQuoteSetName=="Saved Quotes"){
+		currQuoteSetName = "Saved Quotes";
+		this.buildSavedQuotesSelector(savedQuotesCollection);
+		// we're saving the history at this point so we can revert to it if a person enters a quote
+	// if there are no items then we are at a node that defines an xml file
+	}else if(currQuoteSet.items===undefined){
+		$.get('assets/' + currQuoteSet.file, MenuBuilder.buildQuoteSelector, 'xml');
+	// otherwise go to the next set of items
+	}else{
+		
+		MenuBuilder.buildMenu(currQuoteSet);
+	}
+	addToMenuHistory(currQuoteCollection);
+	// we add the currQuoteSet into the history array
+	checkHistoryButton();
+};
+
+MenuBuilder.loadParentMenu = function (){
+	// we build the menu with the last item in the array
+	if(getMenuHistoryLength()>1){	
+		var prevMenuContent = getMenuHistoryItem([getMenuHistoryLength()-2]);
+		//console.log('first getMenuHistoryLength():' + getMenuHistoryLength());
+		menuHistory.pop();
+		//console.log('second getMenuHistoryLength():' + getMenuHistoryLength());
+		MenuBuilder.buildMenu(prevMenuContent,true);
+	}
+	checkHistoryButton();
+	//console.log('getMenuHistoryLength():' + getMenuHistoryLength());
+};
+
+MenuBuilder.clearMenuHistory = function(){
+	menuHistory = [];
+};
+
+MenuBuilder.buildQuoteSelector = function(quoteSet){
+	
+	window.scroll(0,0);
+	currMode = CURR_MODE_QUOTE_SELECTOR;
+	currQuoteSet = quoteSet;
+	//$('#quoteSelectorText').html("Select Quote");
+	var menuPanel = getElement("menuPanel");
+	var selector = getElement("quoteSelector");
+	$quoteSelector = $('#quoteSelector');
+	$quoteSelector.hide();
+	var thisQuoteSet = jQuery(quoteSet).find("quote");
+	var thisQuoteSetName = jQuery(quoteSet).find('section')[0].getAttribute('name');
+	if(currQuoteSetName != "Saved Quotes"){
+		currQuoteSetLanguage = jQuery(quoteSet).find("quotes")[0].getAttribute("language");
+	}
+	currQuoteSetLength = thisQuoteSet.length;
+	jQuery("#quoteSelector li").remove();
+	jQuery("#quoteSelector div").remove();
+	// first add the heading bar
+	//var titleItem = document.createElement("div");
+	var setParentTitle = currQuoteCollection.name;
+	//titleItem.innerHTML = "Select Quote";
+	//titleItem.className = "quoteSelectorHeader";
+	if(currQuoteSetName != "Saved Quotes"){
+		//$('#quoteSelectorText').html(setParentTitle + " > " + thisQuoteSetName);
+		$('#breadCrumb').html(thisQuoteSetName);
+		//$('#breadCrumb').html(setParentTitle + " > " + thisQuoteSetName);
+	}else{
+		// hack -- we always set the first breadcrumb to Collections for Saved quotes
+		//$('#quoteSelectorText').html("Collections > " + thisQuoteSetName);	
+		$('#breadCrumb').html(thisQuoteSetName);
+		//$('#breadCrumb').html("Collections > " + thisQuoteSetName);
+	}
+	showMenuBackButton();
+	
+
+	// this only executes if there are quotes to show 
+	thisQuoteSet.each(function() {
+		var menuItem = document.createElement("li");
+		var text = decodeURIComponent(jQuery(this).find('text').text());
+		var quoteLang = 'en';
+		var quoteId = jQuery(this).attr('id');
+		// set the menuItem
+		jQuery(menuItem).data("quote",text);
+		if(currQuoteSetName == "Saved Quotes"){
+			quoteLang = jQuery(this).find('language').text();
+		}
+		
+	
+		
+		var trimmedText = trimString(text,quoteSelectorTruncateLength,true,isThisLogogramLanguage(quoteLang));
+
+		$myLi = $('<li></li>');
+		if(isInMemorizedArray(quoteId)){
+			//alert('this one is in the array');
+			$myLi.removeClass('checkOff');
+			$myLi.addClass('checkOn');
+		}else{
+			//alert('nope -- not in the array');
+			$myLi.removeClass('checkOn');
+			$myLi.addClass('checkOff');
+		}
+		$myImg = $('<img src=\'images/spacer.png\' width=\'20\'  height=\'20\' border=\'0\' >');
+		$myQuoteText = $('<ul><li>' + trimmedText + '</li></ul></li>');
+		
+		$quoteSelector.append($myLi);
+		$myLi.append($myImg);
+		$myLi.append($myQuoteText);
+		
+		if(isThisRightToLeftLanguage(quoteLang)){
+			//alert('this is right to left: ' + quoteLang);
+			jQuery($myLi).addClass("quoteSelectorItemRTL");
+		}
+	});
+	
+	// this is the function for an image click
+	$('#quoteSelector li img').click(function(){	
+		currQuoteIndex = jQuery("#quoteSelector li img").index(this);
+		thisQuoteId = HideQuoteGame.getCurrQuoteId(currQuoteIndex);
+		if(isInMemorizedArray(thisQuoteId)){
+			$(this).parent().removeClass('checkOn');
+			$(this).parent().addClass('checkOff');
+		}else{
+			$(this).parent().removeClass('checkOff');
+			$(this).parent().addClass('checkOn');
+		}
+		toggleMemorizedItem(thisQuoteId);
+		return false;
+	});
+	
+	// this is the function for the text click
+	$('#quoteSelector li ul li').click(function(){
+		currQuoteIndex = jQuery("#quoteSelector li ul li").index(this);	
+		HideQuoteGame.buildCurrQuote();
+		return false;
+	});
+	$quoteSelector.show();
+	
+};
+
+
+MenuBuilder.buildSavedQuotesSelector = function(){
+	resetMenuHistoryToSavedQuotes();
+	addToMenuHistory(savedQuotesCollection);
+	var quotesLength = jQuery(savedQuotesCollection).find("quote").length;
+	//alert('quotesLength: ' + quotesLength);
+	// if this is the saved quote section and there are no quotes
+	if(quotesLength<1){
+		jQuery("#quoteSelector li").remove();
+		jQuery("#quoteSelector div").remove();
+		showMenuBackButton();
+		var $noItems = $('<div id="noSavedQuotes">There are no quotes in your saved quotes.</div>');
+		$("#quoteSelector").append($noItems);
+	}else{
+		MenuBuilder.buildQuoteSelector(savedQuotesCollection,28);
+	}
+};
+
+
+
+// first we check if we are viewing the saved quotes
+// if so, rebuild that because the user may have added or edited a quote
+selectAnotherQuote = function(){
+	if(currQuoteSetName == "Saved Quotes"){
+		MenuBuilder.buildSavedQuotesSelector();
+	}else{
+		MenuBuilder.buildQuoteSelector(currQuoteSet);
+	}
+	showQuoteSelector();
+	hideGame();
+	showMenus();
+};
+
+//the first item in the history is the whole menu
+//the rest of the items are instances of the menu "items" object
+addToMenuHistory = function (item){
+	menuHistory.push(item);
+};
+
+resetMenuHistoryToSavedQuotes = function(){
+	menuHistory.splice(1,menuHistory.length-1);
+};
+
+getMenuHistoryLength = function(){
+	return menuHistory.length;
+};
+
+getMenuHistoryItem = function (num){
+	return menuHistory[num];
+};
+
+//this checks if the back button should show or not
+checkHistoryButton = function (){
+	if(getMenuHistoryLength()>1){
+		//$("#menuPanel #navBack").show();
+		//getElement('navBack').style.visibility = "visible";
+		showMenuBackButton();
+	}else{
+		//$("#menuPanel #navBack").hide();
+		//getElement('navBack').style.visibility = "hidden";
+		hideMenuBackButton();
+	}
+};
+
+hideMenuBackButton = function (){
+	//console.log('hide the back button******');
+	//jQuery('#navBack').hide(); 
+	getElement('navBack').style.visibility = "hidden";
+};
+
+showMenuBackButton = function (){
+	//console.log('show the back button******');
+	//jQuery('#navBack').show(); 
+	getElement('navBack').style.visibility = "visible";
+};
+
+
+// ----------- memorized items --------------------
+
+
+addToMemorizedArray = function(num){
+	//alert("addToMemorizedArray(num): " + num);
+	memorizedArray.push(num);
+	//alert("memorizedArray.length: "  + memorizedArray.length);
+	updateMemorizedArray();
+};
+
+removeFromMemorizedArray = function (num){
+	//alert("removeFromMemorizedArray(num): " + num);
+	for(var i=0;i< memorizedArray.length;i++){
+		if(memorizedArray[i]==num){
+			memorizedArray.splice(i,1);
+		}
+	}
+	updateMemorizedArray();
+	//alert("memorizedArray.length: "  + memorizedArray.length);
+};
+
+toggleMemorizedItem = function (num){
+	if(isInMemorizedArray(num)){
+		//alert('its in there so remove it');
+		removeFromMemorizedArray(num);
+	}else{
+		//alert('its NOT in there so put it there');
+		addToMemorizedArray(num);
+	}
+};
+
+// this allows us to toggle the memorized checkbox on the menubar
+toggleMenubarCheckbox = function (){
+	var pathToImage = "images/iphone/";
+	var isiPad = navigator.userAgent.match(/iPad/i) != null;
+	if(isiPad){		
+		pathToImage = "images/ipad/";
+	}
+	var currQuoteId = HideQuoteGame.getCurrQuoteId();
+	// we're going to toggle it so if its in the array show the non-checked image
+	if(isInMemorizedArray(currQuoteId)){
+		$("#checkbox img").attr("src",pathToImage + "check-off-menubar.png");
+		$("#checkbox").removeClass("menubarButtonToggleOn");
+	}else{
+		$("#checkbox img").attr("src",pathToImage + "check-on-menubar.png");
+		$("#checkbox").addClass("menubarButtonToggleOn");
+	}
+	toggleMemorizedItem(currQuoteId);
+};
+
+// check to see if the item is in the memorized array
+isInMemorizedArray = function (num){
+	var isTrue = false;
+	var arrayString = 'Looking for : ' + num + ' in the Array string:';
+	for(var i=0;i< memorizedArray.length;i++){
+		arrayString += memorizedArray[i] + ',';
+		if(memorizedArray[i]==num){
+			isTrue = true;
+		}
+	}
+	//alert(arrayString);
+	return isTrue;
+};
+
+// fire this off to Titanium so that we can save the data ti a text file
+updateMemorizedArray = function (){
+	titaniumFireEvent("memorizedArrayChange",{data:memorizedArray});
+};
+
+isCurrQuoteSaved = function(){
+	var isQuoteSaved=false;
+	if(currQuoteSetName === "Saved Quotes"){
+		isQuoteSaved=true;
+	}
+	return isQuoteSaved;
+};

@@ -1,0 +1,106 @@
+/**
+ * utils
+ */
+
+var isLongWord;
+var get_cookie;
+var delete_cookie;
+var loadJSON;
+var isLogogramLanguage;
+var isRightToLeftLanguage;
+var isThisLogogramLanguage;
+var isThisRightToLeftLanguage;
+
+
+//load the JSON Data from the passed in url
+//this allows us to also pass in a dataLoadedHandler once the data is loaded
+loadJSON = function (dataURL,dataLoadedHandler){
+	if (document.getElementById) {
+		var x = (window.ActiveXObject) ? new ActiveXObject("Microsoft.XMLHTTP") : new XMLHttpRequest();
+	}
+	if(x){
+		x.onreadystatechange = function(){
+			if (x.readyState === 4){
+				dataLoadedHandler(eval("(" + x.responseText + ")"));
+			}
+		};
+	 x.open("GET", dataURL, true);
+		x.send(null);
+	}
+};
+
+
+isLongWord = function (thisText){
+	if (thisText.length > 4) {
+		return true;
+	}else{
+		return false;
+	}	
+ };
+ 
+ 
+
+
+// general functions
+
+get_cookie = function ( cookie_name ){
+	var results = document.cookie.match( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+	if(results){
+		return (unescape(results[2]));
+	}else{
+		return null;
+	}
+};
+
+delete_cookie = function ( cookie_name ){
+		var cookie_date = new Date();	// current date & time
+			cookie_date.setTime(cookie_date.getTime() - 1);
+			document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+};
+
+
+// add this to the jQuery prototype so we can properly compare two objects
+$.fn.equals = function(compareTo) {				
+	if (!compareTo || !compareTo.length || this.length!=compareTo.length){
+		return false;
+	}				
+	for(var i=0; i<this.length; i++) {
+		if (this[i]!==compareTo[i]) {
+			return false;
+		}
+	}
+	return true;
+};
+
+
+isThisLogogramLanguage = function (language){
+	language = language.toUpperCase();
+	var isLogogramLang = false;
+	if(language==="CHINESE" || language==="JAPANESE" || language==="KOREAN" || language==="VIETNAMESE"){
+		isLogogramLang = true;
+	}
+	return isLogogramLang;
+};
+
+//Right to Left languages are those that read from right to left
+// like Arabic and Persian
+isThisRightToLeftLanguage = function (language){
+	language = language.toUpperCase();
+	//alert("language is : " + language);
+	var isRightToLeftLang = false;
+	if(language==="ARABIC" || language==="HEBREW" || language==="YIDDISH" || language==="PERSIAN" || language==="AR" || language==="FA" || language==="YI"){
+		isRightToLeftLang = true;
+	}
+	return isRightToLeftLang;
+};
+
+// Logogram langauges are those that use symbols instead of characters
+isLogogramLanguage = function (){
+	return isThisLogogramLanguage(currQuoteSetLanguage);
+};
+
+// Rigt to Left langauges are those tthat read from right to left
+// like Arabic and Persian
+isRightToLeftLanguage = function (){
+	return isThisRightToLeftLanguage(currQuoteSetLanguage);
+};
