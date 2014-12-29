@@ -83,10 +83,13 @@ Home.init = function(){
 	Home.win = Ti.UI.createWindow({
 		layout:"vertical",
 		backgroundColor: "#662211",
-		backgroundImage: "images/" + TiUtils.getOsName() + "-images/bg.png"
+		backgroundImage: "images/" + TiUtils.getOsName() + "-images/bg.png",
+			statusBarStyle : Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT,
+	fullscreen : true
+
 	});
 	Home.width = Titanium.Platform.displayCaps.platformWidth;
-	Home.height = Titanium.Platform.displayCaps.platformHeight - 20;
+	Home.height = Titanium.Platform.displayCaps.platformHeight;
 	Home.appVersionNumber = Titanium.App.Properties.getString("appVersionNumber_preference");
 	Home.orientationModes = [ 
 		Titanium.UI.LANDSCAPE_LEFT,
@@ -98,14 +101,11 @@ Home.init = function(){
 	Home.buttonStyle.backgroundGradient = Home.buttonGradient;
 	Home.buttonStyle.font = {fontSize:16,fontFamily:Home.fontFamily,fontWeight:'bold'};		
 	Home.checkVersion();
-	if(TiUtils.isiPad()){
 		Home.buttonStyleHeight = 45;
 		Home.buttonStyleWidth = 300;
 		Home.marginTopPortrait = 300;
 		Home.marginTopLandscape = 200;
 		Home.logoHeight = 100;
-		
-	}
 	Home.draw();
 };
 
@@ -154,7 +154,7 @@ Home.draw = function(){
 	Home.aboutBtn.width = Home.buttonStyleWidth;
 	Home.aboutBtn.top = 5;
 	
-	if(TiUtils.isIos()){
+
 		Home.startBtn.style = Titanium.UI.iPhone.SystemButtonStyle.PLAIN;
 		Home.enterQuoteBtn.style = Titanium.UI.iPhone.SystemButtonStyle.PLAIN;
 		Home.instructionsBtn.style = Titanium.UI.iPhone.SystemButtonStyle.PLAIN;
@@ -163,7 +163,7 @@ Home.draw = function(){
 		Home.enterQuoteBtn.backgroundGradient =  Home.buttonGradient;
 		Home.instructionsBtn.backgroundGradient =  Home.buttonGradient;
 		Home.aboutBtn.backgroundGradient =  Home.buttonGradient;
-	}
+
 	
 	Home.win.add(Home.logo);
 	Home.win.add(Home.startBtn);
@@ -220,15 +220,12 @@ Home.resetLayout = function(){
 
 
 Home.setListeners = function(){
-	
-	Titanium.API.info("home setListeners 1");
 	Home.startBtn.addEventListener('click',Home.startBtnClickListener);
 	Home.enterQuoteBtn.addEventListener('click',Home.enterQuoteBtnClickListener);
 	Home.instructionsBtn.addEventListener('click',Home.showInstructions);
 	Home.aboutBtn.addEventListener('click',Home.showAbout);
 	//Titanium.Gesture.addEventListener('orientationchange',Home.resetLayout);
 	Ti.App.addEventListener('orientationChangeEvent', Home.resetLayout);
-	Titanium.API.info("home setListeners 2");
 };
 
 Home.startBtnClickListener = function(){
@@ -263,22 +260,13 @@ Home.showUIWin = function(_url){
 		width:Home.width,
 		height:Home.height-Home.toolbarHeight
 	});
-	/*
-	 * 
-	 Home.uiWin = Titanium.UI.createView({
-		backgroundColor:'#179919', 
-		width:Home.width,
-		height:Home.height, 
-		top:0
-	});
-	*/
+
 	Home.HTML.orientationModes = Home.orientationModes;
 	Home.toolBar = Ti.UI.createView({
 		width:Home.width,
 		height:Home.toolbarHeight,
 		top:0,
-		backgroundColor:'#000000'//,
-		//backgroundGradient:Home.toolbarGradient
+		backgroundColor:'#000000',
 	});
 	var closeBtn = Ti.UI.createButton({
 		title: 'Close',
@@ -297,29 +285,17 @@ Home.showUIWin = function(_url){
 	closeBtn.addEventListener('click',function(){
 		
 		Home.hideUIWin();
-		//Home.win.remove(Home.uiWin);
-		//Home.win.remove(Home.toolBar);
-		//Home.instructionsBtn.visible = true;
-		//Titanium.Gesture.removeEventListener('orientationchange',Home.resetLayout);
 		
 	});
 	Home.toolBar.add(closeBtn);
-	
-	//Home.uiWin.add(Home.HTML);
-	//Home.win.layout = "";
-	//Home.uiWin.add(Home.toolBar);
+
 	Home.htmlWin.add(Home.HTML);
 	Home.htmlWin.add(Home.toolBar);
-	//Home.htmlWin.add(Home.uiWin);
 	Home.htmlWin.open();
-	
-	//Home.instructionsBtn.visible = false;
-	//Titanium.Gesture.addEventListener('orientationchange',Home.resetLayout);
+
 };
 
 Home.hideUIWin = function(){
-	//Home.win.layout = "vertical";
-	//Home.win.remove(Home.uiWin);
 	Home.htmlWin.close();
 };
 
@@ -368,7 +344,3 @@ Home.checkVersion = function(){
 	Home.xhr.send();
 
 };
-
-
-
-//Home.init();

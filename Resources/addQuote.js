@@ -141,14 +141,16 @@ AddQuote.init = function(){
 	AddQuote.authorText = AddQuote._authorPromptText;
 	AddQuote.sourceText = AddQuote._sourcePromptText;
 	AddQuote._width = Titanium.Platform.displayCaps.platformWidth;
-	AddQuote._height = Titanium.Platform.displayCaps.platformHeight - AddQuote.iPhoneStatusBarHeight;
+	AddQuote._height = Titanium.Platform.displayCaps.platformHeight;
 	AddQuote.win = Titanium.UI.createWindow({
 		backgroundColor:"#000000",
 		top:0,
-		backgroundImage: "images/" + TiUtils.getOsName() + "-images/bg.png"
+		backgroundImage: "images/" + TiUtils.getOsName() + "-images/bg.png",
+		statusBarStyle : Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT,
+		fullscreen:true
 	});
 	// platform specific values
-	if(TiUtils.isiPad()){
+
 		AddQuote._toolbarHeight = 60;
 		AddQuote._closeBtnHeight = 40;
 		AddQuote._closeBtnTop = 10;
@@ -163,16 +165,11 @@ AddQuote.init = function(){
 		AddQuote._languageOptionsTop = 595;
 		AddQuote._addBtnTop = 635;
 		AddQuote._memorizeNowBtnTop = 685;
-	
-	}
-	
-	if(TiUtils.isIos()){
+
+
 		AddQuote.buttonStyle = Titanium.UI.iPhone.SystemButtonStyle.PLAIN;
 		AddQuote.barStyle = Titanium.UI.iPhone.SystemButtonStyle.BAR;
-	}else{
-		AddQuote.buttonStyle = "";
-		AddQuote.barStyle = "";
-	}
+	
 	
 	Titanium.App.Properties.setString("currQuoteLanguage_preference","English");
 	Titanium.App.Properties.setString("languageRowIndex_preference","5");
@@ -223,7 +220,7 @@ AddQuote.draw = function(){
 	AddQuote.keyboardBtnBar = Ti.UI.createView({
 		id:'buttonbar',
 		height:40,
-		top:100,
+		top:0,
 		backgroundColor:"#000000",
 		style:AddQuote.barStyle,
 		backgroundGradient:AddQuote._buttonBarGradient
@@ -238,9 +235,9 @@ AddQuote.draw = function(){
 		font:{fontSize:16,fontFamily:AddQuote._fontFamily,fontWeight:'bold'},
 		color:'#545454'		
 	});
-	if(TiUtils.isIos()){
+
 		AddQuote.closeKeyboardBtn.style= Titanium.UI.iPhone.SystemButtonStyle.PLAIN;
-	}
+
 	AddQuote.closeKeyboardBtn.addEventListener("click",AddQuote.handleKeyboardClose);
 	AddQuote.keyboardBtnBar.add(AddQuote.closeKeyboardBtn);
 	
@@ -351,17 +348,13 @@ AddQuote.draw = function(){
 		title:'Done'
 	});
 	
-	if (!TiUtils.isAndroid()) {
+	
 		AddQuote.languageToolbar = Titanium.UI.createToolbar({
 			top: 0,
 			items: [AddQuote.done]
 		});
 		AddQuote.language_picker_view = Titanium.UI.createView({height:251,bottom:-251});
-	}else{
-		AddQuote.languageToolbar = Ti.UI.createView({height:50,backgroundColor:"#2299FF",top:0});
-		AddQuote.languageToolbar.add(AddQuote.done);
-		AddQuote.language_picker_view = Titanium.UI.createView({height:251,top:200,backgroundColor:"#11FF95"});
-	}
+	
 	
 	AddQuote.language_picker = Titanium.UI.createPicker({top:43});	
 	if(Titanium.UI.orientation > 2 &&  Titanium.UI.orientation < 5 && TiUtils.isiPhone()){
@@ -441,7 +434,8 @@ AddQuote.enterQuote = function (saveAndMemorize){
 	var quoteString;
 	var cleanString = TiUtils.trim(AddQuote.quoteTxt.value);
 	if(cleanString.indexOf('\n')>-1 && AddQuote.isLogogramLanguage()===false){
-		quoteString = cleanString.replaceAll('\n','<br/> ');
+		quoteString = cleanString.replace(/^\s+|\s+$/g, '');
+		quoteString = quoteString.replaceAll('\n','<br/> ');
 	}else{
 		quoteString = cleanString;
 	}
