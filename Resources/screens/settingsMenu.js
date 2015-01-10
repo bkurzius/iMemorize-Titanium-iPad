@@ -113,6 +113,8 @@ SettingsMenu.init = function() {
 		top : 0,
 		backgroundColor : "#FFFFFF",
 		backgroundImage : "images/" + TiUtils.getOsName() + "-images/bg.png",
+		statusBarStyle : Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT,
+		fullscreen : true
 	});
 
 	SettingsMenu.modalBg = Ti.UI.createView({

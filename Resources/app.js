@@ -133,6 +133,13 @@ var App = {
 		Ti.App.Properties.setString("languageRowIndex_preference", "5");
 		Ti.UI.setBackgroundColor('#000');
 		App.draw();
+		
+		var GA = require("analytics.google");
+		App.GATracker = GA.getTracker("UA-2194207-12");
+		App.GATracker.trackScreen({
+  			 screenName: "home"
+		});
+
 	}
 };
 
@@ -185,6 +192,9 @@ App.setListeners = function() {
 	Ti.App.addEventListener('emailQuoteEvent', App.emailQuote);
 	Ti.App.addEventListener('copyQuoteEvent', App.copyQuoteToClipboard);
 	Ti.App.addEventListener('closeEditMenuEvent', App.closeEditMenu);
+	Ti.App.addEventListener('trackScreen', App.trackScreen);
+	Ti.App.addEventListener('trackChooseCategoryEvent', App.trackChooseCategoryEvent);
+	Ti.App.addEventListener('trackMemorizeEvent', App.trackMemorizeEvent);
 	Ti.App.addEventListener('showQuoteEditorEvent', function() {
 		Ti.API.info('>>>>>showQuoteEditorEvent fired');
 		App.showQuoteEditor();
@@ -199,6 +209,33 @@ App.setListeners = function() {
 
 Ti.API.info('start2');
 // --------- functions -------------
+
+
+App.trackChooseCategoryEvent = function(e){
+	Ti.API.info("trackChooseCategoryEvent: data:"  + e.data);
+	Ti.API.info("trackChooseCategoryEvent: data:stringify"  + JSON.stringify(e.data));
+	var str = JSON.stringify(e.data);
+		App.GATracker.trackEvent({
+  			category: "chooseCategory",
+ 		 	label: str
+		});		
+};
+App.trackMemorizeEvent = function(e){
+	var str = JSON.stringify(e.data);
+	Ti.API.info("trackMemorizeEvent: str:" + str);
+		App.GATracker.trackEvent({
+  			category: "memorize",
+ 		 	label: str
+		});		
+};
+App.trackScreen = function(e){
+	var str = JSON.stringify(e.data);
+	Ti.API.info("trackScreen: str:" + str);
+		App.GATracker.trackScreen({
+  			screenName: str
+		});		
+};
+
 
 App.showQuoteSelector = function() {
 	App.ui.webview.visible = true;
@@ -404,8 +441,26 @@ App.buildSavedQuotes = function() {
 	Ti.API.info('ROW COUNT = ' + rows.getRowCount());
 	var tempContent = '<?xml version="1.0" encoding="utf-8"?><quotes><section name="Saved Quotes">';
 	while (rows.isValidRow()) {
-		tempContent += '<quote id=\'' + rows.fieldByName('quote_id') + '\'>' + '<text>' + rows.fieldByName('quote') + '</text>' + '<author>' + rows.fieldByName('author') + '</author>' + '<reference>' + rows.fieldByName('source') + '</reference>' + '<language>' + rows.fieldByName('language') + '</language>' + '<checked>' + rows.fieldByName('checked') + '</checked>' + '</quote>';
-		Ti.API.info('ID: ' + rows.field(0) + ' Quote: ' + rows.fieldByName('quote') + ' Language ' + rows.fieldByName('language'));
+		// replace any end \n so old errors are fixed
+		// var quote = rows.fieldByName('quote');
+		// quote = quote.replaceAll('<br/> ','\n');
+		// quote = quote.replace(/^\s+|\s+$/g, '');
+		// quote = quote.replaceAll('\n','<br/> ');		
+		// tempContent += '<quote id=\'' + rows.fieldByName('quote_id') + '\'>' + '<text>' + quote + '</text>' + '<author>' + rows.fieldByName('author') + '</author>' + '<reference>' + rows.fieldByName('source') + '</reference>' + '<language>' + rows.fieldByName('language') + '</language>' + '<checked>' + rows.fieldByName('checked') + '</checked>' + '</quote>';
+		// Ti.API.info('ID: ' + rows.field(0) + ' Quote: ' + rows.fieldByName('quote') + ' Language ' + rows.fieldByName('language'));
+				// replace any end \n so old errors are fixed
+		
+		var q = rows.fieldByName('quote');
+		Ti.API.info("contents text quote= " + q);
+		// q = q.replaceAll('<br/> ','\n');
+		// if(q.indexOf('\n')>-1){
+			// //quoteString = quoteString.replace(/^\s+|\s+$/g, '');
+			// q = q.replace(/^\s+|\s+$/g, '');
+		// }
+		// q = q.replaceAll('\n','<br/> ');
+		tempContent += '<quote id=\'' + rows.fieldByName('quote_id') + '\'>' + '<text>' + q + '</text>' + '<author>' + rows.fieldByName('author') + '</author>' + '<reference>' + rows.fieldByName('source') + '</reference>' + '<language>' + rows.fieldByName('language') + '</language>' + '<checked>' + rows.fieldByName('checked') + '</checked>' + '</quote>';
+
+		
 		rows.next();
 	}
 	tempContent += '</section></quotes>';
@@ -543,7 +598,7 @@ App.handleTitaniumMemorizedArrayChange = function(e) {
 };
 
 App.handleSaveAndMemorize = function() {
-	this.closeUIWindow();
+	App.closeUIWindow();
 };
 
 App.saveMemorizedQuotes = function() {

@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no,width=320" />
+	<link href="css/style.css" type="text/css" rel="stylesheet" />
+	<title>iMemorize HTML</title>
+</head>
+<body >
+<div id="header" style="display: none"></div>
+<div id="menuPanel" style="display: none">
+	<div id='navBack' style="visibility:hidden"><a href="javascript:MenuBuilder.loadParentMenu();" class='chooseQuote'><img id='arrow-back-chooser' src="images/iphone-images/arrow-back-icon.png" /></a></div>
+	<div id="quoteSelectorText"></div>
+	<div id='showHome'><a href='javascript:showHome();'title='Home'><img id='icon-home-chooser' src='images/iphone-images/icon-home2.png' border=0 /></a></div>
+	<div id='showSettings'><a href='javascript:showSettings();' title='Show Settings'><img id='icon-menu-settings-chooser' src='images/iphone-images/icon-menu.png' border=0 /></a></div>
+	
+</div>
+<div id="breadCrumb">Collections</div>
+	
+	<ul id="quoteSelector" style="display: none"></ul>
+	
+	<div id="gameWindow" style="display: none">
+		<div id="gameButtons">
+			<!---<div id="navPanel"><a href="javascript:showQuoteSelector();hideGame();" ><img src="images/nav/nav_choose_on.jpg" title="choose quote" border="0" alt="Choose quote" /></a><a href="javascript:hideWords();" ><img src="images/nav/nav_check_off.jpg" alt="Done" border="0" title="Done" /></a><a href="javascript:showAllWords();" ><img src="images/nav/nav_add_on.jpg" alt="Add to favorites" border="0" title="Save" /></a></div>--->
+			<div id='gameNav' style="display: none">
+					<div class="chooseQuote" id='navBack'><a href='javascript:selectAnotherQuote()' ><img id='arrow-back-game' src="images/iphone-images/arrow-back-icon.png" /></a></div>
+					<div id='showHome'><a href='javascript:showHome();' title='Home'><img id='icon-home-game' src='images/iphone-images/icon-home2.png' border=0 /></a></div>
+					<div id='showSettings'><a href='javascript:showSettings();'title='Show Settings'><img id='icon-menu-settings-game' src='images/iphone-images/icon-menu.png' border=0 /></a></div>
+					<div id='checkbox'><a href='javascript:toggleMenubarCheckbox();' title='Toggle memorized'><img id='icon-check' src='images/iphone-images/check-off-menubar.png' border=0 /></a></div>
+					<div id='editQuote' style="display: none"><a href='javascript:editQuote();' title='Edit Quote'><img id='icon-menu-edit' src='images/iphone-images/icon-edit.png' border=0 /></a></div>
+			</div>
+			<div id="currQuoteNum"></div>
+		</div>
+	</div>
+	<div id="gamePanel" class="gamePanel" style="display: none"></div>
+	
+	
+	
+
+
+<div id='settings' style="display: none">
+	<div id='menubar'>
+		<span style='margin: 6px'>Font Size</span>
+		<div id='closeBox'><a href='#' onclick='hideSettings();'>X</a></div>
+	</div>
+</div>
+
+<!--  <div id="home" >
+	<div id="logo"></div>
+	<div class='homebutton'><a href='javascript:init();'  >Choose a quote ></a></div>
+	<div class='homebutton'><a href='javascript:enterQuote();' >Enter your own quote ></a></div>
+	<div class='homebutton'><a href='javascript:showInstructionsScreen();'>Instructions ></a></div>
+</div>
+
+<div id="instructions" style="display: none">
+	<h1>Instructions</h1>
+	<p>iMemorize ws designed to help memorize quotations. Simply choose a quote and then either tap on a word t hide it -- and tap on it again to show it. You can also choose "Hide Words" to hide a few words at a time.</p>
+	<p>Additional features include:</p>
+	<ul>
+		<li>You can enter your own quote in any language</li>
+		<li>Send a quote to a friend -- which includes a link where they can memorize the quote without installing the app</li>
+		<li>Change the font size of the quote so you can read it more easily</li>
+	</ul>
+	<div class='homebutton'><a href='javascript:hideInstructionsScreen();'  >Close</a></div>
+</div>
+<div id="about" style="display: none">
+	<h1>About</h1>
+	<p>iMemorize was designed and developed by Brian Kurzius (bkurzius@gmail.com)</p>
+	<div class='homebutton'><a href='javascript:hideAboutScreen();'  >Close</a></div>
+</div>
+-->
+
+<!---<div id="trace" style="width=500px;height:300px;overflow:scroll" ></div>	 /--->
+
+<script type="text/javascript" src="scripts/GlobalVars.js"></script>
+<script type="text/javascript" src="scripts/SCScripts.js"></script>
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/HideGame.js"></script>
+
+
+<script type="text/javascript" src="scripts/menuBuilder.js"></script>
+
+<script type="text/javascript" src="scripts/titanium.js"></script>
+
+
+<script type="text/javascript" src="scripts/utils.js"></script>
+<script type="text/javascript" src="scripts/ui.js"></script>
+
+<script>
+alert('test');
+/***********************************************
+* Disable Text Selection script- � Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+function disableSelection(target){
+/*if (typeof target.onselectstart!="undefined") //IE route
+	target.onselectstart=function(){return false}
+else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
+	target.style.MozUserSelect="none"
+else //All other route (ie: Opera)
+	target.onmousedown=function(){return false}
+	target.style.cursor = "default"
+	*/
+}
+	function init(){
+		/*
+		$('#home').hide();
+		$('#menuPanel').show();
+		gamePanel = getElement("gamePanel");
+		gameWindow = getElement("gameWindow");
+		gameWindow.style.visibility = "hidden";
+		loadJSON("assets/menu.json",MenuBuilder.menuLoadedHandler);
+		hideGame();
+		showMenus();
+		hideSettings();
+		MenuBuilder.clearMenuHistory();
+		titaniumFireEvent('appLoaded');
+		var isiPad = navigator.userAgent.match(/iPad/i) !== null;
+		if(isiPad){		
+			$("link[rel=stylesheet]").attr({href : "css/styleiPad.css"});
+			$('#arrow-back-chooser').attr('src','images/ipad-images/arrow-back-icon.png');
+			$('#arrow-back-game').attr('src','images/ipad-images/arrow-back-icon.png');
+			$('#icon-home-chooser').attr('src','images/ipad-images/icon-home2.png');
+			$('#icon-home-game').attr('src','images/ipad-images/icon-home2.png');
+			$('#icon-menu-settings-chooser').attr('src','images/ipad-images/icon-menu.png');
+			$('#icon-menu-settings-game').attr('src','images/ipad-images/icon-menu.png');
+			$('#icon-check').attr('src','images/ipad-images/check-off-menubar.png');
+			$('#icon-menu-edit').attr('src','images/ipad-images/check-off-menubar.png');		
+		}
+		//*/		
+	}
+
+</script>
+<script type="text/javascript">
+	//disableSelection(document.body) //disable text selection on entire body of page
+</script>
+</body>
+</html>

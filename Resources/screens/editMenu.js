@@ -20,7 +20,6 @@ EditMenu.init = function() {
 };
 
 EditMenu.draw = function() {
-
 	EditMenu.editMenuModal = Ti.UI.createWindow({
 		height : TiUtils.getAppHeight(),
 		top : 0,
@@ -31,21 +30,23 @@ EditMenu.draw = function() {
 	});
 	EditMenu.initTable();
 	EditMenu.done = Titanium.UI.createButton({
-		title : "Done"
+		title : "Done",
+		width:100,
+		height:40,
+		top:5,
+		style:EditMenu.buttonStyle,
+		borderRadius:10,
+		font:{fontSize:16,fontFamily:AddQuote._fontFamily,fontWeight:'bold'},
 	});
-
-	EditMenu.done.systemButton = Titanium.UI.iPhone.SystemButton.DONE;
-	EditMenu.nav = Ti.UI.iPhone.createNavigationGroup({
+	EditMenu.nav = Ti.UI.iOS.createNavigationWindow({
 		window : EditMenu.editMenuModal
 	});
-	EditMenu.editMenuModal.setRightNavButton(EditMenu.done);
 
 	EditMenu.editMenuModal.add(EditMenu.table);
-
+	EditMenu.editMenuModal.add(EditMenu.done);
 	EditMenu.editMenuModal.open({
 		modal : true
 	});
-
 };
 
 EditMenu.handleEditDoneBtnClick = function() {
@@ -107,6 +108,7 @@ EditMenu.initTable = function() {
 		style : Ti.UI.iPhone.TableViewStyle.GROUPED
 	});
 	EditMenu.table.style = Ti.UI.iPhone.TableViewStyle.GROUPED;
+	EditMenu.table.top = 45;
 
 	EditMenu.table.addEventListener('click', EditMenu.handleTableClick);
 };

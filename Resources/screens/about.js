@@ -4,7 +4,7 @@
 var win = Ti.UI.currentWindow;
 var aboutWin = Ti.UI.createWindow({
 	backgroundColor:'#849B02',
-		statusBarStyle : Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT,
+	statusBarStyle : Titanium.UI.iPhone.StatusBar.LIGHT_CONTENT,
 	fullscreen : true
 
 });
